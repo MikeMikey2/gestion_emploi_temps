@@ -57,7 +57,7 @@ include_once "con_dbb.php";
                             <td><?=htmlspecialchars($p['nom'])?></td>
                             <td><?=htmlspecialchars($p['prenom'])?></td>
                             <td><?=htmlspecialchars($p['email'])?></td>
-                            <td><a href="../edit/edit_prof.php?id=<?= $p['id_personne'] ?>">
+                            <td><a href="../edit/modif.php?id=<?= $p['id_personne'] ?>">
                                 <img src="../icons/modify.jpeg"  width="30"></a> 
                             <a href="../edit/delete.php?id=<?= $p['id_personne'] ?>" onclick="return confirm('Êtes-vous sûr?')"><img src="../icons/delete.png" alt="50" width="30"></a>
                         </td>
@@ -99,7 +99,7 @@ include_once "con_dbb.php";
                             <td><?=htmlspecialchars($etud['nom'])?></td>
                             <td><?=htmlspecialchars($etud['prenom'])?></td>
                             <td><?=htmlspecialchars($etud['email'])?></td>
-                            <td><a href="../edit/edit_etudiant.php?id=<?= htmlspecialchars($etud['id_personne']) ?>"><img src="../icons/modify.jpeg"  width="30"></a> 
+                            <td><a href="../edit/modif.php?id=<?= htmlspecialchars($etud['id_personne']) ?>"><img src="../icons/modify.jpeg"  width="30"></a> 
                              
                             <a href="../edit/delete.php?id=<?= htmlspecialchars($etud['id_personne']) ?>" onclick="return confirm('Êtes-vous sûr?')"><img src="../icons/delete.png" alt="50" width="30"></a></td>
                         </tr>
@@ -142,7 +142,7 @@ include_once "con_dbb.php";
                             <td><?= htmlspecialchars($cour['code_cours'])?></td>
                             <td><?= htmlspecialchars($cour['nom_cours'])?></td>
                             <td><?= htmlspecialchars($cour['description'])?></td>
-                            <td><a href="../edit/edit_cours.php?id=<?= htmlspecialchars($cour['id_cours']) ?>"><img src="../icons/modify.jpeg"  width="30"></a> 
+                            <td><a href="../edit/cours.php?id=<?= htmlspecialchars($cour['id_cours']) ?>"><img src="../icons/modify.jpeg"  width="30"></a> 
                     
                             <a href="../edit/delete_cours.php?id=<?= htmlspecialchars($cour['id_cours']) ?>" onclick="return confirm('Êtes-vous sûr?')"><img src="../icons/delete.png" alt="50" width="30"></a></td>
                         </tr>

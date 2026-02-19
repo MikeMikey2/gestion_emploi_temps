@@ -15,7 +15,7 @@ if(isset($_POST['nom']) &&
         $prenom = $_POST['prenom'];
         $email  = $_POST['email'];
         $mot_de_passe = $_POST['mot_de_passe'];
-    $stmt = $con->prepare("UPDATE PERSONNE SET nom=?, prenom=?, email=?, mot_de_passe=? WHERE id=?");
+    $stmt = $con->prepare("UPDATE PERSONNE SET nom=?, prenom=?, email=?, mot_de_passe=? WHERE id_personne=?");
 $stmt->bind_param("ssssi", $nom, $prenom, $email, $mot_de_passe, $id);
 
     if($stmt->execute()){
@@ -48,7 +48,7 @@ $stmt->bind_param("ssssi", $nom, $prenom, $email, $mot_de_passe, $id);
         </ul>
     </nav>
     <section>
-            <h1>Modifier l'enseignant</h1>
+            <h1>Modifier les donnees de personne</h1>
 
             <?php
            
