@@ -1,7 +1,6 @@
 <?php
 include_once "con_dbb.php";
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,11 +21,16 @@ include_once "con_dbb.php";
         </ul>
     </nav>
     <section>
+        <div class="manage-tabs">
+            <button class="tab-btn active" data-tab="waiting-tab">En attente</button>
+            <button class="tab-btn" data-tab="history-tab">Refusées & Acceptées</button>
+        </div>
         <h1>Liste des requetes</h1>
         <div class="choix">
             <p>Voici la liste de toutes les requetes !</p>
     </section>
       <section class="requests-section">
+        <div class="tab-content" id="waiting-tab">
         <div class="requests-grid">
                         <?php
                         // Helper to render a single request card
@@ -55,9 +59,9 @@ include_once "con_dbb.php";
                         
 
                         // Récupérer et afficher toutes les requêtes en attente (sans regroupement par conteneur)
-                        $str2 = mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='en_attente' ORDER BY date_envoi DESC");
-                        if($str2 && mysqli_num_rows($str2) > 0){
-                            while($r = mysqli_fetch_assoc($str2)){
+                        $str = mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='en_attente' ORDER BY date_envoi DESC");
+                        if($str && mysqli_num_rows($str) > 0){
+                            while($r = mysqli_fetch_assoc($str)){
                                 render_request_card($r);
                             }
                         } else {
@@ -65,6 +69,8 @@ include_once "con_dbb.php";
                         }
                         ?>
         </div>
+        </div>
+        <div class="tab-content" id="history-tab">
         <div class="requests-grid">
                         <?php
                         // Helper to render a single request card
@@ -101,7 +107,97 @@ include_once "con_dbb.php";
                             echo '<p>Aucune requête acceptée.</p>';
                         }
                         ?>
+        
+        <div class="requests-grid">
+                        <?php
+                        // Helper to render a single request card
+                        function render_pending_card($res){
+                            ?>
+                            <div class="request-card rejected">
+                                <div class="request-header">
+                                    <div class="request-info">
+                                        <span class="request-status status-rejected">Refusée</span>
+                                        <span class="request-date"><?=htmlspecialchars($res['date_envoi'] ?? '')?></span>
+                                    </div>
+                                </div>
+                                <h3 class="request-title"><?=htmlspecialchars($res['objet'] ?? '')?></h3>
+                                <p class="request-message"><?=nl2br(htmlspecialchars($res['message'] ?? ''))?></p>
+                              <div class="request-actions"> 
+                                <form method="POST" action="handle_request.php" style="display:inline;"> 
+                                    <input type="hidden" name="request_id" value="<?=htmlspecialchars($res['id_requete'] ?? '')?>"> 
+                                    <button type="submit" name="action3" value="update" class="btn-update">Modifier</button>
+                                </form>
+                             </div> 
+                            </div>
+                             <?php } ?>
+                            </div>
+                            <?php
+                        
+
+                        // Récupérer et afficher toutes les requêtes refusées
+                        $str3 = mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='refusée' ORDER BY date_envoi DESC");
+                        if($str3 && mysqli_num_rows($str3) > 0){
+                            while($res = mysqli_fetch_assoc($str3)){
+                                render_pending_card($res);
+                            }
+                        } else {
+                            echo '<p>Aucune requête refusée.</p>';
+                        }
+                        ?>
+        </div>
+        </div>
         </div>
       </section>
+      <script>
+        // Gestion des onglets pour afficher les données filtrées
+        document.addEventListener('DOMContentLoaded', function() {
+            // Masquer tous les onglets sauf le premier au chargement
+            const allTabContents = document.querySelectorAll('.tab-content');
+            allTabContents.forEach((content, index) => {
+                if (index === 0) {
+                    content.classList.add('active');
+                    content.style.display = 'block';
+                } else {
+                    content.classList.remove('active');
+                    content.style.display = 'none';
+                }
+            });
+            
+            // Récupérer tous les boutons d'onglet
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            
+            // Ajouter un événement click à chaque bouton
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Récupérer l'attribut data-tab du bouton cliqué
+                    const tabName = this.getAttribute('data-tab');
+                    
+                    // Afficher uniquement le contenu sélectionné
+                    showTab(tabName);
+                    
+                    // Mettre à jour le style du bouton actif
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+
+        // Fonction pour afficher l'onglet sélectionné
+        function showTab(tabName) {
+            // Masquer tous les onglets
+            const allTabContents = document.querySelectorAll('.tab-content');
+            allTabContents.forEach(content => {
+                content.classList.remove('active');
+                content.style.display = 'none';
+            });
+            
+            // Afficher l'onglet sélectionné
+            const selectedTab = document.getElementById(tabName);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+                selectedTab.style.display = 'block';
+            }
+        }
+      </script>
 </body>
 </html>

@@ -628,6 +628,30 @@ img{
     margin-left: 0.5rem;
 }
 
+/* Ne pas appliquer le coloriage global au statut "Acceptée" */
+.request-status.status-accepted {
+    background: linear-gradient(180deg, #d1fae5 0%, #a7f3d0 100%);
+    color: #047857;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+    border: 1px solid rgba(4,120,87,0.2);
+    margin-left: 0.5rem;
+}
+
+/* Ne pas appliquer le coloriage global au statut "Refusée" */
+.request-status.status-rejected {
+    background: linear-gradient(180deg, #fee2e2 0%, #fecaca 100%);
+    color: #991b1b;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+    border: 1px solid rgba(153,27,27,0.2);
+    margin-left: 0.5rem;
+}
+
 /* Styles pour les boutons d'action des requêtes */
 .request-actions .btn-accept,
 .btn-accept {
@@ -670,6 +694,26 @@ img{
 @media (max-width: 480px) {
     .request-actions .btn-accept, .request-actions .btn-reject,
     .btn-accept, .btn-reject { padding: 7px 10px; font-size: 13px; }
+}
+
+/* Styles pour le bouton Modifier */
+.request-actions .btn-update,
+.btn-update {
+    background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(59,130,246,0.2);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+.request-actions .btn-update:hover,
+.btn-update:hover {
+    transform: translateY(-2px);
+    filter: brightness(0.95);
+    box-shadow: 0 8px 24px rgba(59,130,246,0.3);
 }
 .view-requests {
     color: white;
