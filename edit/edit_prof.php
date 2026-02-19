@@ -1,4 +1,5 @@
 <?php
+include_once "../ADMIN/con_dbb.php";
 $id = isset($_GET['id']) ? $_GET['id'] : (isset($_POST['id']) ? $_POST['id'] : null);
 if(isset($_POST['nom']) &&
  isset($_POST['prenom']) && 
@@ -8,10 +9,10 @@ if(isset($_POST['nom']) &&
   $_POST['prenom'] != '' &&
   $_POST['email'] != '' &&
   $_POST['mot_de_passe'] != ''){
-    include_once "../ADMIN/con_dbb.php";
-    extract($_POST);
-    $sql="UPDATE PERSONNE SET nom='$nom', prenom='$prenom', email='$email', mot_de_passe='$mot_de_passe' WHERE id = $id";
-    if(mysqli_query($con,$sql)){
+    $stmt = $con->prepare("UPDATE PERSONNE SET nom=?, prenom=?, email=?, mot_de_passe=? WHERE id=?");
+$stmt->bind_param("ssssi", $nom, $prenom, $email, $mot_de_passe, $id);
+$stmt->execute();
+    if($stmt->affected_rows > 0){
         header("Location: ../ADMIN/Gestion.php?update=success");
     }else{
         header("Location: ../ADMIN/Gestion.php?update=error");
@@ -42,14 +43,14 @@ if(isset($_POST['nom']) &&
             <h1>Modifier l'enseignant</h1>
 
             <?php
-            include_once "../ADMIN/con_dbb.php";
+           
             $sql1="SELECT * FROM PERSONNE WHERE id =".$id;
-            echo $sql;
+            echo $sql1;
             $result=mysqli_query($con,$sql1);
         
             while($personne = mysqli_fetch_assoc($result)){
             ?>
-                <form action="" method="POST" >
+                <form action="#" method="POST" >
                 <input type="hidden" name="id" value="<?=htmlspecialchars($personne['id']) ?>">
 
                 <input 
