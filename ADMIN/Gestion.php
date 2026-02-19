@@ -30,8 +30,8 @@ include_once "con_dbb.php";
             <div class="user-list">
                 <div class="user-card">
                     <div class="liste">
-                        <h1>Liste des Gestion</h1>
-                        <p>liste de tous les Gestion enregistres dans la base de donnees.</p>
+                        <h1>Liste des Enseignants</h1>
+                        <p>liste de tous les enseignants enregistres dans la base de donnees.</p>
                         <form action="../edit/add_prof.php" method="POST">
                             <input type="submit" value="Ajouter" ">
                         </form>

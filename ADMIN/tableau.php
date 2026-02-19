@@ -43,10 +43,6 @@ include_once "con_dbb.php";
                     ?>
                     </span>
                 </h4>
-                <div class="nb">
-                    <p><a href="">Voir les details</a></p>
-                    
-                </div>
             </div>
             <div class="nbclass">
                    <h2>Cours actifs</h2>
@@ -62,9 +58,6 @@ include_once "con_dbb.php";
                                 echo "Erreur lors de l'exécution de la requête : " . $con->error;
                               }
                     ?></span></h4>
-                <div class="nb">
-                    <p><a href="">Voir les details</a></p>
-            </div>
            </div>  
              <div class="nbsalles">
                    <h2>Creneaux cette semaine</h2>
@@ -84,9 +77,6 @@ include_once "con_dbb.php";
                     ?>
                     </span>
                 </h4>
-                <div class="nb">
-                    <p><a href="">Voir les details</a></p>
-            </div>
         </div>
           <div class="emploi">
                    <h2>Requetes en attentes</h2>
@@ -106,10 +96,55 @@ include_once "con_dbb.php";
                     ?>
                     </span>
                 </h4>
-                <div class="nb">
-                    <p><a href="">Voir les details</a></p>
+        </div>
+         </div>
+            <div class="new">
+                <div class="creneau">
+                  <h2>Derniers cours ajoutés</h2>
+                <p>Voici le  dernier creneau ajoutés à la base de données.</p>
+                <ul>
+                    <?php
+                    // Requête pour récupérer les 5 derniers cours ajoutés
+                    $sql5 = "SELECT * FROM CRENEAU ORDER BY id_creneau DESC LIMIT 1";
+                    $result = $con->query($sql5);
+                    if ($result && $result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<li>" . htmlspecialchars($row['nom_creneau']) . 
+                                         " - " . htmlspecialchars($row['heure_debut']) . 
+                                         '-'.htmlspecialchars($row['heure_fin']).
+                                         '-'.htmlspecialchars($row['date']).
+                                         '-'.htmlspecialchars($row['salle']).
+                                         '-'.htmlspecialchars($row['filiere']).
+                                         '-'.htmlspecialchars($row['code_cours']).
+                                "</li>";
+                        }
+                    } else {
+                        echo "<li>Aucun creneau ajouté récemment.</li>";
+                    } 
+                    ?>
+                </ul>
+                </div>
+                  <div class="requete">
+                    <h2>Dernières requêtes ajoutées</h2>
+                <p>Voici la dernière requête ajoutée à la base de données.</p>
+                <ul>
+                    <?php
+                    // Requête pour récupérer les 5 derniers cours ajoutés
+                    $sql6 = "SELECT * FROM REQUETE WHERE statut = 'en attente' ORDER BY id_requete DESC LIMIT 1";
+                    $result = $con->query($sql6);
+                    if ($result && $result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<li>"         .htmlspecialchars($row['statut']).
+                                              '-' . htmlspecialchars($row['objet']) . 
+                                         " - " . htmlspecialchars($row['message']) . 
+                                         '-'.htmlspecialchars($row['date_requete']).
+                                "</li>";
+                        }
+                    } else {
+                        echo "<li>Aucune requete ajoutée récemment.</li>";
+                    } 
+                    ?>
             </div>
-            
     </section>
 </body>
 </html>
