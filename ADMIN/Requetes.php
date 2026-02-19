@@ -55,17 +55,53 @@ include_once "con_dbb.php";
                         
 
                         // Récupérer et afficher toutes les requêtes en attente (sans regroupement par conteneur)
-                        $str = mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='en_attente' ORDER BY date_envoi DESC");
-                        if($str && mysqli_num_rows($str) > 0){
-                            while($r = mysqli_fetch_assoc($str)){
+                        $str2 = mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='en_attente' ORDER BY date_envoi DESC");
+                        if($str2 && mysqli_num_rows($str2) > 0){
+                            while($r = mysqli_fetch_assoc($str2)){
                                 render_request_card($r);
                             }
                         } else {
-                            echo '<p>Aucune requête en attente.</p>';
+                            echo '<p>Aucune requête acceptée.</p>';
                         }
                         ?>
         </div>
-        
+        <div class="requests-grid">
+                        <?php
+                        // Helper to render a single request card
+                        function render_accept_card($re){
+                            ?>
+                            <div class="request-card accepted">
+                                <div class="request-header">
+                                    <div class="request-info">
+                                        <span class="request-status status-accepted">Acceptée</span>
+                                        <span class="request-date"><?=htmlspecialchars($re['date_envoi'] ?? '')?></span>
+                                    </div>
+                                </div>
+                                <h3 class="request-title"><?=htmlspecialchars($re['objet'] ?? '')?></h3>
+                                <p class="request-message"><?=nl2br(htmlspecialchars($re['message'] ?? ''))?></p>
+                              <div class="request-actions"> 
+                                <form method="POST" action="handle_request.php" style="display:inline;"> 
+                                    <input type="hidden" name="request_id" value="<?=htmlspecialchars($re['id_requete'] ?? '')?>"> 
+                                    <button type="submit" name="action3" value="update" class="btn-update">Modifier</button>
+                                </form>
+                             </div> 
+                            </div>
+                             <?php } ?>
+                            </div>
+                            <?php
+                        
+
+                        // Récupérer et afficher toutes les requêtes accept (sans regroupement par conteneur)
+                        $str2 = mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='acceptée' ORDER BY date_envoi DESC");
+                        if($str2 && mysqli_num_rows($str2) > 0){
+                            while($re = mysqli_fetch_assoc($str2)){
+                                render_accept_card($re);
+                            }
+                        } else {
+                            echo '<p>Aucune requête acceptée.</p>';
+                        }
+                        ?>
+        </div>
       </section>
 </body>
 </html>
