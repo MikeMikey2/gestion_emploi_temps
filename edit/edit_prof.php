@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 include_once "../ADMIN/con_dbb.php";
 $id = isset($_GET['id']) ? $_GET['id'] : (isset($_POST['id']) ? $_POST['id'] : null);
 if(isset($_POST['nom']) &&
@@ -9,13 +11,19 @@ if(isset($_POST['nom']) &&
   $_POST['prenom'] != '' &&
   $_POST['email'] != '' &&
   $_POST['mot_de_passe'] != ''){
+        $nom = $_POST['nom'];
+        $prenom = $_POST['prenom'];
+        $email  = $_POST['email'];
+        $mot_de_passe = $_POST['mot_de_passe'];
     $stmt = $con->prepare("UPDATE PERSONNE SET nom=?, prenom=?, email=?, mot_de_passe=? WHERE id=?");
 $stmt->bind_param("ssssi", $nom, $prenom, $email, $mot_de_passe, $id);
-$stmt->execute();
-    if($stmt->affected_rows > 0){
+
+    if($stmt->execute()){
         header("Location: ../ADMIN/Gestion.php?update=success");
+        exit();
     }else{
         header("Location: ../ADMIN/Gestion.php?update=error");
+        exit();
     }
 }
 ?>
@@ -44,36 +52,37 @@ $stmt->execute();
 
             <?php
            
-            $sql1="SELECT * FROM PERSONNE WHERE id =".$id;
-            echo $sql1;
-            $result=mysqli_query($con,$sql1);
+            $stmt2 = $con->prepare("SELECT * FROM PERSONNE WHERE id_personne = ?");
+            $stmt2->bind_param("i", $id);
+            $stmt2->execute();
+            $result = $stmt2->get_result();
         
             while($personne = mysqli_fetch_assoc($result)){
             ?>
                 <form action="#" method="POST" >
-                <input type="hidden" name="id" value="<?=htmlspecialchars($personne['id']) ?>">
+                <input type="hidden" name="id" value="<?=($personne['id_personne']) ?>">
 
                 <input 
                     type="text" 
                     name="nom" 
-                    placeholder="Nom actuel: <?= htmlspecialchars($personne['nom']) ?>">
+                    placeholder="Nom actuel: <?= ($personne['nom']) ?>">
                 
                 <input 
                     type="text" 
                     name="prenom" 
-                    placeholder="Prénom actuel: <?= htmlspecialchars($personne['prenom']) ?>">
+                    placeholder="Prénom actuel: <?= ($personne['prenom']) ?>">
                 
                 <input 
                     type="email" 
                     name="email" 
-                    placeholder="Email actuel: <?= htmlspecialchars($personne['email']) ?>">
+                    placeholder="Email actuel: <?= ($personne['email']) ?>">
                 
                 <div class="password-field">
                     <input 
                         type="password" 
                         id="passwordInput"
                         name="mot_de_passe" 
-                        placeholder="Nouveau mot de passe (laisser vide = conserver):<?=htmlspecialchars($personne['mot_de_passe'])?>">
+                        placeholder="Nouveau mot de passe (laisser vide = conserver):<?=($personne['mot_de_passe'])?>">
                     <button type="button" class="toggle-password" onclick="togglePassword()">
                         <i class="fas fa-eye"></i>
                     </button>
