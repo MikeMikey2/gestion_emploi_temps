@@ -44,8 +44,8 @@ include_once "con_dbb.php";
                               <div class="request-actions"> 
                                 <form method="POST" action="handle_request.php" style="display:inline;"> 
                                     <input type="hidden" name="request_id" value="<?=htmlspecialchars($r['id_requete'])?>"> 
-                                    <button type="submit" name="action" value="accept" class="btn-accept">Accepter</button> 
-                                    <button type="submit" name="action" value="reject" class="btn-reject">Rejeter</button> 
+                                    <button type="submit" name="action1" value="accept" class="btn-accept">Accepter</button> 
+                                    <button type="submit" name="action2" value="reject" class="btn-reject">Rejeter</button> 
                                 </form>
                              </div> 
                             </div>

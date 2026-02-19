@@ -117,7 +117,7 @@ include_once "con_dbb.php";
                     <div class="liste">
                         <h1>Liste des Cours</h1>
                         <p>Liste de tous les cours enregistrés dans la base de données.</p>
-                        <form action="../edit/add_cours.php" method="POST">
+                        <form action="../edit/add_cour.php" method="POST">
                             <input type="submit" value="Ajouter" >
                         </form>
                     </div>
@@ -142,7 +142,7 @@ include_once "con_dbb.php";
                             <td><?= htmlspecialchars($cour['code_cours'])?></td>
                             <td><?= htmlspecialchars($cour['nom_cours'])?></td>
                             <td><?= htmlspecialchars($cour['description'])?></td>
-                            <td><a href="../edit/cours.php?id=<?= htmlspecialchars($cour['id_cours']) ?>"><img src="../icons/modify.jpeg"  width="30"></a> 
+                            <td><a href="../edit/cour.php?id=<?= htmlspecialchars($cour['id_cours']) ?>"><img src="../icons/modify.jpeg"  width="30"></a> 
                     
                             <a href="../edit/delete_cours.php?id=<?= htmlspecialchars($cour['id_cours']) ?>" onclick="return confirm('Êtes-vous sûr?')"><img src="../icons/delete.png" alt="50" width="30"></a></td>
                         </tr>

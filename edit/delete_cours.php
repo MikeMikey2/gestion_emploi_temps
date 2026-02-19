@@ -1,5 +1,5 @@
 <?php
-$id=$_POST['id_cours'];
+$id=$_GET['id'];
 include_once "../ADMIN/con_dbb.php";
 $sql="DELETE FROM COURS WHERE id_cours = $id";
 $result=mysqli_query($con,$sql);
