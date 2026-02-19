@@ -1,5 +1,34 @@
 <?php
 include_once "con_dbb.php";
+//si on valide une requete
+if(isset($_POST['action1'])) {
+    $request_id =isset($_GET['request_id']) ? $_GET['request_id'] : (isset($_POST['request_id']) ? $_POST['request_id'] : null);
+    // Mettre à jour le statut de la requête en "acceptée"
+    $update_sql = "UPDATE REQUETE SET statut='acceptée' WHERE id_requete=?";
+    $stmt = $con->prepare($update_sql);
+    $stmt->bind_param("i", $request_id);
+    $stmt->execute();
+    header("Location: Requetes.php");
+    exit();
+}elseif(isset($_POST['action2'])) {
+    $request_id =isset($_GET['request_id']) ? $_GET['request_id'] : (isset($_POST['request_id']) ? $_POST['request_id'] : null);
+    // Mettre à jour le statut de la requête en "refusée"
+    $update_sql = "UPDATE REQUETE SET statut='refusée' WHERE id_requete=?";
+    $stmt = $con->prepare($update_sql);
+    $stmt->bind_param("i", $request_id);
+    $stmt->execute();
+    header("Location: Requetes.php");
+    exit();
+}elseif(isset($_POST['action3'])) {
+    $request_id =isset($_GET['request_id']) ? $_GET['request_id'] : (isset($_POST['request_id']) ? $_POST['request_id'] : null);
+    // Mettre à jour le statut de la requête en "en_attente"
+    $update_sql = "UPDATE REQUETE SET statut='en_attente' WHERE id_requete=?";
+    $stmt = $con->prepare($update_sql);
+    $stmt->bind_param("i", $request_id);
+    $stmt->execute();
+    header("Location: Requetes.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +75,7 @@ include_once "con_dbb.php";
                                 <h3 class="request-title"><?=htmlspecialchars($r['objet'] ?? '')?></h3>
                                 <p class="request-message"><?=nl2br(htmlspecialchars($r['message'] ?? ''))?></p>
                               <div class="request-actions"> 
-                                <form method="POST" action="handle_request.php" style="display:inline;"> 
+                                <form method="POST" action="#" style="display:inline;"> 
                                     <input type="hidden" name="request_id" value="<?=htmlspecialchars($r['id_requete'])?>"> 
                                     <button type="submit" name="action1" value="accept" class="btn-accept">Accepter</button> 
                                     <button type="submit" name="action2" value="reject" class="btn-reject">Rejeter</button> 
@@ -86,7 +115,7 @@ include_once "con_dbb.php";
                                 <h3 class="request-title"><?=htmlspecialchars($re['objet'] ?? '')?></h3>
                                 <p class="request-message"><?=nl2br(htmlspecialchars($re['message'] ?? ''))?></p>
                               <div class="request-actions"> 
-                                <form method="POST" action="handle_request.php" style="display:inline;"> 
+                                <form method="POST" action="#" style="display:inline;"> 
                                     <input type="hidden" name="request_id" value="<?=htmlspecialchars($re['id_requete'] ?? '')?>"> 
                                     <button type="submit" name="action3" value="update" class="btn-update">Modifier</button>
                                 </form>
@@ -123,7 +152,7 @@ include_once "con_dbb.php";
                                 <h3 class="request-title"><?=htmlspecialchars($res['objet'] ?? '')?></h3>
                                 <p class="request-message"><?=nl2br(htmlspecialchars($res['message'] ?? ''))?></p>
                               <div class="request-actions"> 
-                                <form method="POST" action="handle_request.php" style="display:inline;"> 
+                                <form method="POST" action="#" style="display:inline;"> 
                                     <input type="hidden" name="request_id" value="<?=htmlspecialchars($res['id_requete'] ?? '')?>"> 
                                     <button type="submit" name="action3" value="update" class="btn-update">Modifier</button>
                                 </form>
