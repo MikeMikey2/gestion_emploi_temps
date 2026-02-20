@@ -1028,3 +1028,118 @@ img{
 @media (max-width: 480px) {
     .form-message { font-size: 13px; padding: 12px 12px; }
 }
+
+/* Styles pour la barre de recherche et ajout de créneau */
+.recherche {
+    background: linear-gradient(180deg, #ffffff 0%, #f7feff 100%);
+    border-radius: 12px;
+    padding: 22px 25px;
+    margin: 25px 25px;
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.08);
+    border: 1px solid #e6eefc;
+}
+
+.recherche form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.recherche input[type="text"] {
+    flex: 1;
+    min-width: 220px;
+    padding: 12px 16px;
+    border: 2px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    outline: none;
+    transition: all 0.3s ease;
+    background: white;
+    color: #2d3748;
+}
+
+.recherche input[type="text"]::placeholder {
+    color: #a0aec0;
+    font-weight: 500;
+}
+
+.recherche input[type="text"]:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background: linear-gradient(135deg, #f7fbff 0%, #ffffff 100%);
+    transform: translateY(-2px);
+}
+
+.recherche small {
+    font-size: 12px;
+    color: #718096;
+    font-weight: 500;
+    min-height: 20px;
+    display: inline-block;
+}
+
+.recherche input[type="submit"] {
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.recherche input[type="submit"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+.recherche input[type="submit"]:active {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+@media (max-width: 768px) {
+    .recherche {
+        padding: 18px 15px;
+        margin: 15px 12px;
+    }
+    
+    .recherche form {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .recherche input[type="text"] {
+        width: 100%;
+        min-width: unset;
+    }
+    
+    .recherche input[type="submit"] {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .recherche {
+        padding: 15px 12px;
+        margin: 12px 8px;
+    }
+    
+    .recherche input[type="text"] {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+    
+    .recherche input[type="submit"] {
+        font-size: 13px;
+        padding: 10px 20px;
+    }
+}

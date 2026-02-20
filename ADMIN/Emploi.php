@@ -29,13 +29,19 @@
     </section>
     <section>
         <div class="recherche">
-        
-         <form action="../edit/add_creneau.php" method="POST">
-            <input type="text" id="search" placeholder="Entrer une classe">
-        <small id="searchMessage" aria-live="polite" style="margin-left:10px;"></small>
-                <input type="submit" value="Ajouter" name="ajout">
+            <form action="../edit/add_creneau.php" method="POST" novalidate>
+                <input 
+                    type="text" 
+                    id="search" 
+                    placeholder="Rechercher une classe, date, code ou salle..."
+                    autocomplete="off">
+                <small id="searchMessage" aria-live="polite"></small>
+                <input 
+                    type="submit" 
+                    value="Ajouter un créneau" 
+                    name="ajout">
             </form>
-        
+        </div>
         <?php
         
         $stm=mysqli_query($con," SELECT * FROM CRENEAU");
