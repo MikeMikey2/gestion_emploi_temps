@@ -986,3 +986,45 @@ img{
     .new .creneau, .new .requete { padding: 18px; }
     .new .creneau h2, .new .requete h2 { font-size: 16px; }
 }
+/* Styles pour les messages d'erreur/succès dans les formulaires */
+.form-message {
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: msgIn 0.3s ease-out;
+    font-weight: 500;
+    border-left: 4px solid;
+}
+
+.form-message-success {
+    background: linear-gradient(90deg, #e6ffed 0%, #f0fff6 100%);
+    border-left-color: #10b981;
+    color: #065f46;
+}
+
+.form-message-error {
+    background: linear-gradient(90deg, #fff1f2 0%, #fff7f7 100%);
+    border-left-color: #ef4444;
+    color: #831843;
+}
+
+.form-message-info {
+    background: linear-gradient(90deg, #eef2ff 0%, #f8fbff 100%);
+    border-left-color: #667eea;
+    color: #3730a3;
+}
+
+.form-message i {
+    font-size: 18px;
+}
+
+.form-message-success i { color: #10b981; }
+.form-message-error i { color: #ef4444; }
+.form-message-info i { color: #667eea; }
+
+@media (max-width: 480px) {
+    .form-message { font-size: 13px; padding: 12px 12px; }
+}

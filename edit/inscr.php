@@ -7,30 +7,36 @@ catch(PDOException $e){
     die("Erreur de connexion: " . $e->getMessage());
 }
 
+$message = null;
+$message_type = null;
+
 if(isset($_POST['add'])){
-    $nom = $_POST['nom'];
-    $prenom = $_POST['prenom'];
-    $email = $_POST['email'];
-    $mot_de_passe = $_POST['mot_de_passe'];
+    $nom = $_POST['nom'] ?? '';
+    $prenom = $_POST['prenom'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $mot_de_passe = $_POST['mot_de_passe'] ?? '';
     
     // Vérifier que les champs ne sont pas vides
     if(empty($nom) || empty($prenom) || empty($email) || empty($mot_de_passe)){
-        echo"$nom,$prenom,$email,$mot_de_passe";
-        die("Erreur: Tous les champs sont obligatoires");
-    }
-    
-    try{
-        // Requête corrigée avec les bonnes variables
-        $stmt = $conn->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe,enseignant) VALUES(?, ?, ?, ?,0)");
-        if($stmt->execute([$nom, $prenom, $email, $mot_de_passe])){
-            echo "Inscription réussie";
-        }else{
-            echo "Erreur lors de l'exécution";
-            print_r($stmt->errorInfo());
+        $message = "Tous les champs sont obligatoires";
+        $message_type = "error";
+    } else {
+        try{
+            $stmt = $conn->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe,enseignant) VALUES(?, ?, ?, ?,0)");
+            $mdp_hash = password_hash($mot_de_passe, PASSWORD_DEFAULT);
+            if($stmt->execute([$nom, $prenom, $email, $mdp_hash])){
+                $message = "Étudiant ajouté avec succès";
+                $message_type = "success";
+                $nom = $prenom = $email = $mot_de_passe = '';
+            }else{
+                $message = "Erreur lors de l'ajout de l'étudiant";
+                $message_type = "error";
+            }
         }
-    }
-    catch(PDOException $e){
-        echo "Erreur SQL: " . $e->getMessage();
+        catch(PDOException $e){
+            $message = "Erreur: " . $e->getMessage();
+            $message_type = "error";
+        }
     }
 }
 ?>
@@ -56,24 +62,33 @@ if(isset($_POST['add'])){
     </nav>
     <section>
         <div class="teacher">
-            <h1>Ajouter un Etudiant</h1>
+            <h1>Ajouter un Étudiant</h1>
+            <?php if($message): ?>
+                <div class="form-message form-message-<?= $message_type ?>">
+                    <i class="fas fa-<?= $message_type === 'success' ? 'check-circle' : ($message_type === 'error' ? 'exclamation-circle' : 'info-circle') ?>"></i>
+                    <span><?= htmlspecialchars($message) ?></span>
+                </div>
+            <?php endif; ?>
             <form action="" method="POST" novalidate>
                 <input 
                     type="text" 
                     name="nom" 
                     placeholder="Entrer le nom" 
+                    value="<?= htmlspecialchars($nom ?? '') ?>"
                     required>
                 
                 <input 
                     type="text" 
                     name="prenom" 
                     placeholder="Entrer le prénom" 
+                    value="<?= htmlspecialchars($prenom ?? '') ?>"
                     required >
                 
                 <input 
                     type="email" 
                     name="email" 
                     placeholder="Entrer l'email" 
+                    value="<?= htmlspecialchars($email ?? '') ?>"
                     required >
                 
                 <div class="password-field">

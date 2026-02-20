@@ -25,14 +25,49 @@
         <h1>Liste d'emploi du temps</h1>
         <div class="choix">
             <p>Voici notre emploi du temps !</p>
-            
         </div>
     </section>
     <section>
         <div class="recherche">
-        <input type="text" id="search" placeholder="Entrer une classe">
+        
+         <form action="../edit/add_creneau.php" method="POST">
+            <input type="text" id="search" placeholder="Entrer une classe">
         <small id="searchMessage" aria-live="polite" style="margin-left:10px;"></small>
-
+                <input type="submit" value="Ajouter" name="ajout">
+            </form>
+        
+        <?php
+        
+        $stm=mysqli_query($con," SELECT * FROM CRENEAU");
+        $cours=$stm->fetch_all(MYSQLI_ASSOC);
+        $st = mysqli_query($con,"SELECT * FROM COURS WHERE id_cours IN (SELECT id_cours FROM CRENEAU)");
+        $cre = $st->fetch_all(MYSQLI_ASSOC);
+        ?>
+      <table>
+            <tr>
+            <th>Date</th>
+            <th>Heure_debut</th>
+            <th>Code_cours</th>
+            <th>Classe</th>
+            <th>Salle</th>
+            <th>Heure_fin</th>
+            <th>Action</th>
+        </tr>  
+        <?php foreach($cours as $cour): ?>
+         <tr>
+            <td><?=htmlspecialchars($cour['date']) ?></td>
+            <td ><?=htmlspecialchars($cour['heure_debut']) ?></td>
+            <td ><?=htmlspecialchars($cour['code_cours']) ?></td>
+            <td><?=htmlspecialchars($cour['filiere']) ?></td>
+            <td ><?=htmlspecialchars($cour['salle']) ?></td>
+            <td><?=htmlspecialchars($cour['heure_fin']) ?></td>
+            <td><a href="../edit/edit_creneau.php?id=<?= $cour['id_creneau'] ?>"><img src="../icons/modify.jpeg" width="30"></a> 
+                <a href="../edit/delete_creneau.php?id=<?= $cour['id_creneau'] ?>" onclick="return confirm('Êtes-vous sûr?')"><img src="../icons/delete.png"width="30"></a>
+            </td>
+        </tr>   
+        <?php endforeach; ?>
+    </div>
+    </section>
         <script>
         document.addEventListener('DOMContentLoaded', function () {
             const input = document.getElementById('search');
@@ -140,38 +175,5 @@
             input.focus();
         });
         </script>
-        <?php
-        
-        $stm=mysqli_query($con," SELECT * FROM CRENEAU");
-        $cours=$stm->fetch_all(MYSQLI_ASSOC);
-        $st = mysqli_query($con,"SELECT * FROM COURS WHERE id_cours IN (SELECT id_cours FROM CRENEAU)");
-        $cre = $st->fetch_all(MYSQLI_ASSOC);
-        ?>
-      <table>
-            <tr>
-            <th>Date</th>
-            <th>Heure_debut</th>
-            <th>Code_cours</th>
-            <th>Classe</th>
-            <th>Salle</th>
-            <th>Heure_fin</th>
-            <th>Action</th>
-        </tr>  
-        <?php foreach($cours as $cour): ?>
-         <tr>
-            <td><?=htmlspecialchars($cour['date']) ?></td>
-            <td ><?=htmlspecialchars($cour['heure_debut']) ?></td>
-            <td ><?=htmlspecialchars($cour['code_cours']) ?></td>
-            <td><?=htmlspecialchars($cour['filiere']) ?></td>
-            <td ><?=htmlspecialchars($cour['salle']) ?></td>
-            <td><?=htmlspecialchars($cour['heure_fin']) ?></td>
-            <td><a href="edit_creneau.php?id=<?= $cour['id_creneau'] ?>"><img src="../icons/modify.jpeg" width="30"></a> 
-                <a href="delete_creneau.php?id=<?= $cour['id_creneau'] ?>" onclick="return confirm('Êtes-vous sûr?')"><img src="../icons/delete.png"width="30"></a>
-            </td>
-        </tr>   
-        <?php endforeach; ?>
-    </div>
-    </section>
-        
 </body>
 </html>

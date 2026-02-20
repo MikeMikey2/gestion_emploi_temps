@@ -23,7 +23,7 @@ if(isset($_POST['nom']) &&
 $stmt->bind_param("ssssi", $nom, $prenom, $email, $mot_de_passe, $id);
 
     if($stmt->execute()){
-        $message = "Personne modifiée avec succès";
+        $message = "Enseignant modifié avec succès";
         $message_type = "success";
     }else{
         $message = "Erreur lors de la modification";
@@ -53,7 +53,7 @@ $stmt->bind_param("ssssi", $nom, $prenom, $email, $mot_de_passe, $id);
     </nav>
     <section>
         <div class="teacher">
-            <h1>Modifier la Personne</h1>
+            <h1>Modifier l'Enseignant</h1>
             <?php if($message): ?>
                 <div class="form-message form-message-<?= $message_type ?>">
                     <i class="fas fa-<?= $message_type === 'success' ? 'check-circle' : 'exclamation-circle' ?>"></i>
@@ -76,30 +76,27 @@ $stmt->bind_param("ssssi", $nom, $prenom, $email, $mot_de_passe, $id);
                 <input 
                     type="text" 
                     name="nom" 
-                    placeholder="Nom"
-                    value="<?= htmlspecialchars($personne['nom']) ?>" 
-                    required>
+                    placeholder="Nom" 
+                    value="<?= htmlspecialchars($personne['nom']) ?>">
                 
                 <input 
                     type="text" 
                     name="prenom" 
-                    placeholder="Prénom"
-                    value="<?= htmlspecialchars($personne['prenom']) ?>" 
-                    required>
+                    placeholder="Prénom" 
+                    value="<?= htmlspecialchars($personne['prenom']) ?>">
                 
                 <input 
                     type="email" 
                     name="email" 
-                    placeholder="Email"
-                    value="<?= htmlspecialchars($personne['email']) ?>" 
-                    required>
+                    placeholder="Email" 
+                    value="<?= htmlspecialchars($personne['email']) ?>">
                 
                 <div class="password-field">
                     <input 
                         type="password" 
                         id="passwordInput"
                         name="mot_de_passe" 
-                        placeholder="Nouveau mot de passe"
+                        placeholder="Nouveau mot de passe" 
                         required>
                     <button type="button" class="toggle-password" onclick="togglePassword()">
                         <i class="fas fa-eye"></i>

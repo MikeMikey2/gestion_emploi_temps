@@ -10,25 +10,28 @@ $message = null;
 $message_type = null;
 
 if(isset($_POST['add'])) {
+    $date = $_POST['date'] ?? '';
+    $heure_debut = $_POST['heure_debut'] ?? '';
+    $heure_fin = $_POST['heure_fin'] ?? '';
+    $salle = $_POST['salle'] ?? '';
+    $id_cours = $_POST['id_cours'] ?? '';
+    $id_admin = $_POST['id_admin'] ?? '';
     $code_cours = $_POST['code_cours'] ?? '';
-    $nom_cours = $_POST['nom_cours'] ?? '';
-    $description = $_POST['description'] ?? '';
+    $filiere = $_POST['filiere'] ?? '';
+    $id_personne = $_POST['id_personne'] ?? '';
     
     // Vérifier que les champs ne sont pas vides
-    if(empty($code_cours) || empty($nom_cours) || empty($description)) {
+    if(empty($date) || empty($heure_debut) || empty($heure_fin) || empty($salle) || empty($id_cours) || empty($id_admin) || empty($code_cours) || empty($filiere) || empty($id_personne)) {
         $message = "Tous les champs sont obligatoires";
         $message_type = "error";
     } else {
         try {
-            $stmt = $conn->prepare("INSERT INTO COURS(code_cours, nom_cours, description) VALUES(?, ?, ?)");
-            
-            if($stmt->execute([$code_cours, $nom_cours, $description])) {
-                $message = "Cours ajouté avec succès";
+            $stmt = $conn->prepare("INSERT INTO CRENEAU(date, heure_debut, heure_fin, salle, id_cours, id_admin, code_cours, filiere, id_personne) 
+                                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            if($stmt->execute([$date, $heure_debut, $heure_fin, $salle, $id_cours, $id_admin, $code_cours, $filiere, $id_personne])) {
+                $message = "Créneau ajouté avec succès";
                 $message_type = "success";
-                $code_cours = $nom_cours = $description = '';
-            } else {
-                $message = "Erreur lors de l'ajout du cours";
-                $message_type = "error";
+                $date = $heure_debut = $heure_fin = $salle = $id_cours = $id_admin = $code_cours = $filiere = $id_personne = '';
             }
         } catch(PDOException $e) {
             $message = "Erreur: " . $e->getMessage();
@@ -59,40 +62,25 @@ if(isset($_POST['add'])) {
     </nav>
     <section>
         <div class="teacher">
-            <h1>Ajouter un Cours</h1>
+            <h1>Ajouter un Créneau</h1>
             <?php if($message): ?>
                 <div class="form-message form-message-<?= $message_type ?>">
-                    <i class="fas fa-<?= $message_type === 'success' ? 'check-circle' : ($message_type === 'error' ? 'exclamation-circle' : 'info-circle') ?>"></i>
+                    <i class="fas fa-<?= $message_type === 'success' ? 'check-circle' : 'exclamation-circle' ?>"></i>
                     <span><?= htmlspecialchars($message) ?></span>
                 </div>
             <?php endif; ?>
             <form action="" method="POST" novalidate>
-                <input 
-                    type="text" 
-                    name="code_cours" 
-                    placeholder="Entrer le code cours" 
-                    value="<?= htmlspecialchars($code_cours ?? '') ?>"
-                    required>
-                
-                <input 
-                    type="text" 
-                    name="nom_cours" 
-                    placeholder="Entrer le nom du cours" 
-                    value="<?= htmlspecialchars($nom_cours ?? '') ?>"
-                    required >
-                
-                <input 
-                    type="text" 
-                    name="description" 
-                    placeholder="Entrer la description du cours" 
-                    value="<?= htmlspecialchars($description ?? '') ?>"
-                    required >
+                <input type="text" name="date" placeholder="Date" value="<?= htmlspecialchars($date ?? '') ?>" required>
+                <input type="text" name="heure_debut" placeholder="Heure de début" value="<?= htmlspecialchars($heure_debut ?? '') ?>" required>
+                <input type="text" name="heure_fin" placeholder="Heure de fin" value="<?= htmlspecialchars($heure_fin ?? '') ?>" required>
+                <input type="text" name="salle" placeholder="Salle" value="<?= htmlspecialchars($salle ?? '') ?>" required>
+                <input type="text" name="id_cours" placeholder="ID cours" value="<?= htmlspecialchars($id_cours ?? '') ?>" required>
+                <input type="text" name="id_admin" placeholder="ID admin" value="<?= htmlspecialchars($id_admin ?? '') ?>" required>
+                <input type="text" name="code_cours" placeholder="Code cours" value="<?= htmlspecialchars($code_cours ?? '') ?>" required>
+                <input type="text" name="filiere" placeholder="Filière" value="<?= htmlspecialchars($filiere ?? '') ?>" required>
+                <input type="text" name="id_personne" placeholder="ID professeur" value="<?= htmlspecialchars($id_personne ?? '') ?>" required>
 
-                
-                <input 
-                    type="submit" 
-                    value="Ajouter" 
-                    name="add">
+                <input type="submit" value="Ajouter" name="add">
             </form>
         </div>
     </section>
