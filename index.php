@@ -29,8 +29,8 @@ if(isset($_POST['acces'])){
 
         if($res2 && $res2->num_rows >= 1){
             $_SESSION['email'] = $email;
-            $_SESSION['role'] = 'enseignant';
-            header("Location: Students/tableau.php");
+            $_SESSION['role'] = 'etudiant';
+            header("Location: Students/Emploi.php");
             exit();
         }else{
             $erreur = "Email ou mot de passe incorrect !";
@@ -44,7 +44,7 @@ if(isset($_POST['acces'])){
         if($res2 && $res2->num_rows >= 1){
             $_SESSION['email'] = $email;
             $_SESSION['role'] = 'enseignant';
-            header("Location: Teachers/tableau.php");
+            header("Location: Teachers/Emploi.php");
             exit();
         }else{
             $erreur = "Email ou mot de passe incorrect !";
