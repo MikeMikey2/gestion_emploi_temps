@@ -32,6 +32,7 @@
             <form action="../edit/add_creneau.php" method="POST" novalidate>
                 <input 
                     type="text" 
+                    class="search" 
                     id="search" 
                     placeholder="Rechercher une classe, date, code ou salle..."
                     autocomplete="off">
@@ -39,7 +40,8 @@
                 <input 
                     type="submit" 
                     value="Ajouter un créneau" 
-                    name="ajout">
+                    name="ajout"
+                    class="btn-add">
             </form>
         </div>
         <?php
