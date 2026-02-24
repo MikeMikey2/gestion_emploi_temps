@@ -84,7 +84,7 @@ include_once "con_dbb.php";
                     <span >
                         <?php
                         // Requête pour compter le nombre total de personnes
-                        $sql4 = "SELECT COUNT(*) AS nombre_requete FROM REQUETE";
+                        $sql4 = "SELECT COUNT(*) AS nombre_requete FROM REQUETE WHERE statut = 'en attente'";
                         $result = $con->query($sql4);
 
                               if ($result) { 

@@ -55,7 +55,13 @@ $id = isset($_GET['id']) ? $_GET['id'] : (isset($_POST['id']) ? $_POST['id'] : n
                                     <p><?= htmlspecialchars($row['description']) ?></p>
                                     <div class="slot-meta">
                                         <span>📍 Salle <?= htmlspecialchars($row['salle']) ?></span>
-                                        <span>👥 4 étudiants</span>
+                                        <span>👥 <?php  
+                                        $stmt2 = $con->prepare("SELECT COUNT(*) as count FROM PERSONNE WHERE enseignant=0 AND id_creneau=?");
+                                        $stmt2->bind_param("i", $row['id_personne']);
+                                        $stmt2->execute();
+                                        $res2 = $stmt2->get_result();
+                                        echo htmlspecialchars($res2->fetch_assoc()['count']);
+                                        ?> étudiants</span>
                                     </div>
                                 </div>
                             </div>
