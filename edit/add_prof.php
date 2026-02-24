@@ -96,6 +96,7 @@ if(isset($_POST['add'])) {
                         id="passwordInput"
                         name="mot_de_passe" 
                         placeholder="Entrer le mot de passe" 
+                        value="<?= htmlspecialchars($mdp ?? '') ?>"
                         required >
                     <button type="button" class="toggle-password" onclick="togglePassword()">
                         <i class="fas fa-eye"></i>

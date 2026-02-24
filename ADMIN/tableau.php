@@ -79,7 +79,7 @@ include_once "con_dbb.php";
                 </h4>
         </div>
           <div class="emploi">
-                   <h2>Requetes en attentes</h2>
+                   <h2> Nouvelles Requetes</h2>
                 <h4>
                     <span >
                         <?php
