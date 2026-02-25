@@ -69,6 +69,7 @@ if(isset($_POST['action1'])) {
                                 <div class="request-header">
                                     <div class="request-info">
                                         <span class="request-status status-pending">En attente</span>
+                                        <span class="request-name"><?=htmlspecialchars($r['nom'] ?? '')?> <?=htmlspecialchars($r['prenom'] ?? '')?></span>
                                         <span class="request-date"><?=htmlspecialchars($r['date_envoi'] ?? '')?></span>
                                     </div>
                                 </div>
@@ -109,6 +110,7 @@ if(isset($_POST['action1'])) {
                                 <div class="request-header">
                                     <div class="request-info">
                                         <span class="request-status status-accepted">Acceptée</span>
+                                        <span class="request-name"><?=htmlspecialchars($re['nom'] ?? '')?> <?=htmlspecialchars($re['prenom'] ?? '')?></span>
                                         <span class="request-date"><?=htmlspecialchars($re['date_envoi'] ?? '')?></span>
                                     </div>
                                 </div>
@@ -146,6 +148,7 @@ if(isset($_POST['action1'])) {
                                 <div class="request-header">
                                     <div class="request-info">
                                         <span class="request-status status-rejected">Refusée</span>
+                                        <span class="request-name"><?=htmlspecialchars($res['nom'] ?? '')?> <?=htmlspecialchars($res['prenom'] ?? '')?></span>
                                         <span class="request-date"><?=htmlspecialchars($res['date_envoi'] ?? '')?></span>
                                     </div>
                                 </div>
