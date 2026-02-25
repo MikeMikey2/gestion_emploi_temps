@@ -89,7 +89,7 @@ if(isset($_POST['action1'])) {
                         
 
                         // Récupérer et afficher toutes les requêtes en attente (sans regroupement par conteneur)
-                        $str = mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='en_attente' ORDER BY date_envoi DESC");
+                        $str = mysqli_query($con, "   SELECT r.*, p.nom, p.prenom FROM REQUETE r JOIN PERSONNE p ON r.id_personne = p.id_personne WHERE r.statut='en_attente' ORDER BY r.date_envoi DESC");
                         if($str && mysqli_num_rows($str) > 0){
                             while($r = mysqli_fetch_assoc($str)){
                                 render_request_card($r);
@@ -129,7 +129,7 @@ if(isset($_POST['action1'])) {
                         
 
                         // Récupérer et afficher toutes les requêtes accept (sans regroupement par conteneur)
-                        $str2 = mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='acceptée' ORDER BY date_envoi DESC");
+                        $str2 = mysqli_query($con, "   SELECT r.*, p.nom, p.prenom FROM REQUETE r JOIN PERSONNE p ON r.id_personne = p.id_personne WHERE r.statut='acceptée' ORDER BY r.date_envoi DESC");
                         if($str2 && mysqli_num_rows($str2) > 0){
                             while($re = mysqli_fetch_assoc($str2)){
                                 render_accept_card($re);
@@ -167,7 +167,7 @@ if(isset($_POST['action1'])) {
                         
 
                         // Récupérer et afficher toutes les requêtes refusées
-                        $str3 = mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='refusée' ORDER BY date_envoi DESC");
+                        $str3 = mysqli_query($con, "SELECT r.*, p.nom, p.prenom FROM REQUETE r JOIN PERSONNE p ON r.id_personne = p.id_personne WHERE r.statut='refusée' ORDER BY r.date_envoi DESC");
                         if($str3 && mysqli_num_rows($str3) > 0){
                             while($res = mysqli_fetch_assoc($str3)){
                                 render_pending_card($res);
