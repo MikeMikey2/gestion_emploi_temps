@@ -87,7 +87,7 @@ include_once "con_dbb.php";
                 <ul>
                     <?php
                     // Requête pour récupérer les 5 derniers cours ajoutés
-                    $sql5 = "SELECT * FROM CRENEAU ORDER BY id_creneau DESC LIMIT 1";
+                    $sql5 = "SELECT c.*, co.code_cours FROM CRENEAU c JOIN COURS co ON c.id_cours = co.id_cours ORDER BY c.id_creneau DESC LIMIT 1";
                     $result = $con->query($sql5);
                     if ($result && $result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) {
@@ -111,7 +111,7 @@ include_once "con_dbb.php";
                 <p>Voici la dernière requête ajoutée à la base de données.</p>
                 <ul>
                     <?php
-                    // Requête pour récupérer les 5 derniers cours ajoutés
+                    // Requête pour récupérer la derniere requete ajoutés
                     $sql6 = "SELECT * FROM REQUETE WHERE statut = 'en attente' ORDER BY id_requete DESC LIMIT 1";
                     $result = $con->query($sql6);
                     if ($result && $result->num_rows > 0) {
@@ -119,7 +119,7 @@ include_once "con_dbb.php";
                             echo "<li>"         .htmlspecialchars($row['statut']).
                                               '-' . htmlspecialchars($row['objet']) . 
                                          " - " . htmlspecialchars($row['message']) . 
-                                         '-'.htmlspecialchars($row['date_requete']).
+                                         '-'.htmlspecialchars($row['date_envoi']).
                                 "</li>";
                         }
                     } else {
