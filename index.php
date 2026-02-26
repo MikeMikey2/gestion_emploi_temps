@@ -17,6 +17,7 @@ if(isset($_POST['acces'])){
         if($req && $req->num_rows >= 1){
             $_SESSION['email'] = $email;
             $_SESSION['role'] = 'admin';
+            $_SESSION['id_personne'] = $req->fetch_assoc()['id_admin']; // Stocker l'id_admin dans la session
             header("Location: ADMIN/tableau.php");
             exit();
         }
@@ -30,6 +31,7 @@ if(isset($_POST['acces'])){
         if($res2 && $res2->num_rows >= 1){
             $_SESSION['email'] = $email;
             $_SESSION['role'] = 'etudiant';
+            $_SESSION['id_personne'] = $res2->fetch_assoc()['id_personne']; // Stocker l'id_personne dans la session
             header("Location: Students/Emploi.php");
             exit();
         }else{
@@ -44,6 +46,7 @@ if(isset($_POST['acces'])){
         if($res2 && $res2->num_rows >= 1){
             $_SESSION['email'] = $email;
             $_SESSION['role'] = 'enseignant';
+            $_SESSION['id_personne'] = $res2->fetch_assoc()['id_personne']; // Stocker l'id_personne dans la session
             header("Location: Teachers/Emploi.php");
             exit();
         }else{

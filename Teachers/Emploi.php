@@ -1,11 +1,11 @@
 <?php
 
 session_start();
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'enseignant') { header("Location: ../index.php"); exit; }
 include_once "../ADMIN/con_dbb.php";
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'enseignant') { header("Location: ../index.php"); exit; 
-}else{
-$id = (int)$_SESSION['id'];
-}
+$id = $_SESSION['id_personne'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,35 +37,30 @@ $id = (int)$_SESSION['id'];
                         <span>Nouvelle requête</span>
                     </button>
                 </div>
-                <?php
-                 function emploi_info($row){
                 
-                ?>
                 <div class="week-schedule">
                     <div class="week-day">
+                        <?php
+                          function emploi_info($row){
+                         ?>
                         <div class="day-header">
-                            <span><?= htmlspecialchars($row['date']) ?></span>
+                            
+                            <span><?= htmlspecialchars($row['date']??'') ?></span>
                         </div>
                         <div class="day-slots">
                             <div class="time-slot">
-                                <div class="slot-time"><?= htmlspecialchars($row['heure_debut']) ?> - <?= htmlspecialchars($row['heure_fin']) ?></div>
+                                <div class="slot-time"><?= htmlspecialchars($row['heure_debut']??'') ?> - <?= htmlspecialchars($row['heure_fin']??'') ?></div>
                                 <div class="slot-card">
-                                    <h4><?= htmlspecialchars($row['code_cours']) ?></h4>
-                                    <p><?= htmlspecialchars($row['description']) ?></p>
+                                    <h4><?= htmlspecialchars($row['code_cours']??'') ?></h4>
+                                    <p><?= htmlspecialchars($row['description']??'') ?></p>
                                     <div class="slot-meta">
-                                        <span>📍 Salle <?= htmlspecialchars($row['salle']) ?></span>
-                                        <span>👥 <?=htmlspecialchars($row['nb_etudiants']) ; ?>étudiants</span>
+                                        <span>📍 Salle <?= htmlspecialchars($row['salle']??'') ?></span>
+                                        <span>👥 <?=htmlspecialchars($row['nb_etudiants']??'') ; ?>étudiants</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
-                    </div>
-                </div>
-                
-            </main>
-        </div>
-        <?php 
+                            <?php 
                  }
                     $stmt = $con->prepare("SELECT c.*, co.code_cours, co.description,COUNT(p.id_personne) as nb_etudiants FROM CRENEAU c JOIN COURS co ON c.id_cours = co.id_cours LEFT JOIN PERSONNE p ON p.id_creneau = c.id_creneau AND p.enseignant = 0 WHERE c.id_personne = ? GROUP BY c.id_creneau");
                 $stmt->bind_param("i", $id);
@@ -74,8 +69,12 @@ $id = (int)$_SESSION['id'];
                 while($row = $res->fetch_assoc()){
                        emploi_info($row);
                 }
-                $stmt->close();
                 ?>
+                    </div>
+                </div>
+            </main>
+        </div>
+
     </section>
         
 </body>
