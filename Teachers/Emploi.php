@@ -2,8 +2,10 @@
 
 session_start();
 include_once "../ADMIN/con_dbb.php";
-$id = isset($_GET['id']) ? $_GET['id'] : (isset($_POST['id']) ? $_POST['id'] : null);
-
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'enseignant') { header("Location: ../index.php"); exit; 
+}else{
+$id = (int)$_SESSION['id'];
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,13 +16,13 @@ $id = isset($_GET['id']) ? $_GET['id'] : (isset($_POST['id']) ? $_POST['id'] : n
     <link rel="stylesheet" href="../style/style2.css">
 </head>
 <body>
-    <div ><b>GESTION DE L'EMPLOI DU TEMPS</b></div>
+    <div class="Gtitre"><b>GESTION DE L'EMPLOI DU TEMPS</b></div>
       <nav>
      <h5 class="menu">MENU</h5>
          <ul class="nav-list">
-            <li><a href="Professeurs.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Professeurs.php') ? 'nav-active' : '' ?>"><img src="icons/prof.png" alt="20" width="30">Professeurs</a></li>
-            <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Emploi.php') ? 'nav-active' : '' ?>"><img src="icons/emp.png" alt="20" width="30"> Emploi du temps</a></li>
-            <li><a href="../index.php" class="<?= (basename($_SERVER['PHP_SELF'])=='../index.php') ? 'nav-active' :'' ?>"><img src="../icons/back.jpeg" alt="20" width="30">Deconnexion</a></li>
+            <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Emploi.php') ? 'nav-active' : '' ?>"><img src="../icons/evenement.png" alt="20" width="30"> Emploi du temps</a></li>
+            <li><a href="Requetes.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Requetes.php') ? 'nav-active' : '' ?>"><img src="../icons/message.jpeg" alt="20" width="30">Requetes <span class="badge"><?php echo mysqli_num_rows(mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='acceptée' OR statut='refusée'")); ?></span></a></li>
+            <li><a href="../logout.php" class="<?= (basename($_SERVER['PHP_SELF'])=='../logout.php') ? 'nav-active' :'' ?>"><img src="../icons/back.jpeg" alt="20" width="30">Deconnexion</a></li>
         </ul>
     </nav>
     <section>
@@ -36,11 +38,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : (isset($_POST['id']) ? $_POST['id'] : n
                     </button>
                 </div>
                 <?php
-                $stmt = $con->prepare("SELECT * FROM CRENEAU WHERE id_personne=(SELECT id_personne FROM PERSONNE WHERE email=? AND enseignant=1)");
-                $stmt->bind_param("s", $_SESSION['email']);
-                $stmt->execute();
-                $res = $stmt->get_result();
-                while($row = $res->fetch_assoc()):
+                 function emploi_info($row){
                 
                 ?>
                 <div class="week-schedule">
@@ -56,24 +54,28 @@ $id = isset($_GET['id']) ? $_GET['id'] : (isset($_POST['id']) ? $_POST['id'] : n
                                     <p><?= htmlspecialchars($row['description']) ?></p>
                                     <div class="slot-meta">
                                         <span>📍 Salle <?= htmlspecialchars($row['salle']) ?></span>
-                                        <span>👥 <?php  
-                                        $stmt2 = $con->prepare("SELECT COUNT(*) as count FROM PERSONNE WHERE enseignant=0 AND id_creneau=?");
-                                        $stmt2->bind_param("i", $row['id_personne']);
-                                        $stmt2->execute();
-                                        $res2 = $stmt2->get_result();
-                                        echo htmlspecialchars($res2->fetch_assoc()['count']);
-                                        ?> étudiants</span>
+                                        <span>👥 <?=htmlspecialchars($row['nb_etudiants']) ; ?>étudiants</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
-                    </main>
                 </div>
-                    <?php 
-                    $stmt->close();
-                    endwhile 
-                    ?>
+                
+            </main>
+        </div>
+        <?php 
+                 }
+                    $stmt = $con->prepare("SELECT c.*, co.code_cours, co.description,COUNT(p.id_personne) as nb_etudiants FROM CRENEAU c JOIN COURS co ON c.id_cours = co.id_cours LEFT JOIN PERSONNE p ON p.id_creneau = c.id_creneau AND p.enseignant = 0 WHERE c.id_personne = ? GROUP BY c.id_creneau");
+                $stmt->bind_param("i", $id);
+                $stmt->execute();
+                $res = $stmt->get_result();
+                while($row = $res->fetch_assoc()){
+                       emploi_info($row);
+                }
+                $stmt->close();
+                ?>
     </section>
         
 </body>

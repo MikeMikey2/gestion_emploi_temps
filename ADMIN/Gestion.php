@@ -18,7 +18,7 @@ include_once "con_dbb.php";
                 <li><a href="Gestion.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Gestion.php') ? 'nav-active' : '' ?>"><img src="../icons/per.png" alt="20" width="30">Gestion</a></li>
                 <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Emploi.php') ? 'nav-active' : '' ?>"><img src="../icons/evenement.png" alt="20" width="30"> Emploi du temps</a></li>
                 <li><a href="Requetes.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Requetes.php') ? 'nav-active' : '' ?>"><img src="../icons/message.jpeg" alt="20" width="30">Requetes<span class="badge"><?php echo mysqli_num_rows(mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='en_attente'")); ?></span></a></li>
-                <li><a href="../index.php" class="<?= (basename($_SERVER['PHP_SELF'])=='../index.php') ? 'nav-active' :'' ?>"><img src="../icons/back.jpeg" alt="20" width="30">Deconnexion</a></li>
+                <li><a href="../logout.php" class="<?= (basename($_SERVER['PHP_SELF'])=='../logout.php') ? 'nav-active' :'' ?>"><img src="../icons/back.jpeg" alt="20" width="30">Deconnexion</a></li>
             </ul>
     </nav>
     <section>
@@ -161,8 +161,8 @@ include_once "con_dbb.php";
         document.addEventListener('DOMContentLoaded', function() {
             // Masquer tous les onglets sauf le premier au chargement
             const allTabContents = document.querySelectorAll('.tab-content');
-            allTabContents.forEach((content, index) => {
-                if (index === 0) {
+            allTabContents.forEach((content, logout) => {
+                if (logout === 0) {
                     content.classList.add('active');
                     content.style.display = 'block';
                 } else {
@@ -234,9 +234,9 @@ include_once "con_dbb.php";
                         } else {
                             // Chercher dans tous les cellules sauf la dernière (Actions)
                             const cells = Array.from(row.cells);
-                            isVisible = cells.some((cell, index) => {
+                            isVisible = cells.some((cell, logout) => {
                                 // Ignorer la colonne Actions (généralement la dernière)
-                                if (index === cells.length - 1) return false;
+                                if (logout === cells.length - 1) return false;
                                 
                                 const cellText = cell.textContent.trim().toLowerCase();
                                 return cellText.includes(searchTerm);
@@ -279,7 +279,7 @@ include_once "con_dbb.php";
                 const href = a.getAttribute('href');
                 if (!href) return;
                 // Comparer le nom de fichier (Gestion.php === Gestion.php)
-                if (href === currentFile || (currentFile && currentFile.indexOf(href) !== -1)) {
+                if (href === currentFile || (currentFile && currentFile.logoutOf(href) !== -1)) {
                     a.classList.add('nav-active');
                 }
             });
