@@ -1,4 +1,9 @@
 <?php
+session_start(); // ← manquant !
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'enseignant') { 
+    header("Location: ../index.php"); 
+    exit; 
+}
 include_once "../ADMIN/con_dbb.php";
 if(isset($_POST['generate_pdf'])) {
     header("Location: genpdf.php");
@@ -27,9 +32,9 @@ if(isset($_POST['generate_pdf'])) {
     <section>
         <h1>Mes leçons</h1>
         <p>Contenu des leçons à venir...</p>
-        <form action="#" method="post"></form>
+        <form action="#" method="post">
             <button class="btn-primary" name="generate_pdf">Générer PDF</button>
-
+        </form>
     </section>
 </body>
 </html>
