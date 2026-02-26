@@ -5,6 +5,9 @@ session_start();
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'enseignant') { header("Location: ../index.php"); exit; }
 include_once "../ADMIN/con_dbb.php";
 $id = $_SESSION['id_personne'];
+if(isset($_POST['btn'])){
+    header("Location: rediger.php");
+}
 
 ?>
 <!DOCTYPE html>
@@ -30,12 +33,14 @@ $id = $_SESSION['id_personne'];
             <main class="main-content full-width">
                 <div class="section-header">
                     <h1>Mon emploi du temps</h1>
-                    <button class=" btn-primary" id="newRequestBtn">
+                    <form action="#" method="POST">
+                        <button class=" btn-primary" name="btn" id="newRequestBtn">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path d="M10 4v12m-6-6h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                         <span>Nouvelle requête</span>
                     </button>
+                    </form>
                 </div>
                 
                 <div class="week-schedule">

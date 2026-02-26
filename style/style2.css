@@ -849,7 +849,8 @@ img{
 
 .teacher input[type="text"],
 .teacher input[type="email"],
-.teacher input[type="password"] {
+.teacher input[type="password"],
+.teacher textarea {
     padding: 14px 16px;
     border: 2px solid #cbd5e1;
     border-radius: 10px;
@@ -863,14 +864,16 @@ img{
 
 .teacher input[type="text"]::placeholder,
 .teacher input[type="email"]::placeholder,
-.teacher input[type="password"]::placeholder {
+.teacher input[type="password"]::placeholder,
+.teacher textarea::placeholder {
     color: #a0aec0;
     font-weight: 500;
-}
+}    
 
 .teacher input[type="text"]:focus,
 .teacher input[type="email"]:focus,
-.teacher input[type="password"]:focus {
+.teacher input[type="password"]:focus,
+.teacher textarea:focus {
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     background: linear-gradient(135deg, #f7fbff 0%, #ffffff 100%);
