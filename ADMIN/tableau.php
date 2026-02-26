@@ -23,7 +23,6 @@ include_once "con_dbb.php";
         </ul>
     </nav>
     <section>
-        <h1>Tableau de bord</h1>
         <div class="choix">
             <p>tableau de bord</p>
           <div class="container"> 
@@ -79,25 +78,7 @@ include_once "con_dbb.php";
                     </span>
                 </h4>
         </div>
-          <div class="emploi">
-                   <h2> Nouvelles Requetes</h2>
-                <h4>
-                    <span >
-                        <?php
-                        // Requête pour compter le nombre total de personnes
-                        $sql4 = "SELECT COUNT(*) AS nombre_requete FROM REQUETE WHERE statut = 'en attente'";
-                        $result = $con->query($sql4);
-
-                              if ($result) { 
-                                $row = $result->fetch_assoc();
-                                 echo $row['nombre_requete'];
-                              } else {
-                                echo "Erreur lors de l'exécution de la requête : " . $con->error;
-                              }
-                    ?>
-                    </span>
-                </h4>
-        </div>
+         
          </div>
             <div class="new">
                 <div class="creneau">
