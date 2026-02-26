@@ -1,6 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 // Pas de session_start() ici, pas d'include qui affiche quoi que ce soit
-require_once "../dompdf/autoload.inc.php";
+require_once "../dompdf/vendor/autoload.inc.php";
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
