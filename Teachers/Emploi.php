@@ -55,14 +55,14 @@ $id = $_SESSION['id_personne'];
                                     <p><?= htmlspecialchars($row['description']??'') ?></p>
                                     <div class="slot-meta">
                                         <span>📍 Salle <?= htmlspecialchars($row['salle']??'') ?></span>
-                                        <span>👥 <?=htmlspecialchars($row['nb_etudiants']??'') ; ?>étudiants</span>
+                                        <span><?=htmlspecialchars($row['filiere'])?></span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                             <?php 
                  }
-                    $stmt = $con->prepare("SELECT c.*, co.code_cours, co.description,COUNT(p.id_personne) as nb_etudiants FROM CRENEAU c JOIN COURS co ON c.id_cours = co.id_cours LEFT JOIN PERSONNE p ON p.id_creneau = c.id_creneau AND p.enseignant = 0 WHERE c.id_personne = ? GROUP BY c.id_creneau");
+                    $stmt = $con->prepare("SELECT c.*, co.code_cours, co.description FROM CRENEAU c JOIN COURS co ON c.id_cours = co.id_cours WHERE c.id_personne = ? ORDER BY c.date, c.heure_debut");
                 $stmt->bind_param("i", $id);
                 $stmt->execute();
                 $res = $stmt->get_result();
