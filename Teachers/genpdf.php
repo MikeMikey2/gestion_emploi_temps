@@ -2,33 +2,24 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 // Pas de session_start() ici, pas d'include qui affiche quoi que ce soit
-require_once "../vendor/autoload.php";
+require_once "../ADMIN/con_dbb.php"; // Assurez-vous que ce fichier existe et est correct
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
-
+ob_start(); // Démarre la temporisation de sortie pour éviter les problèmes d'en-têtes
+require_once "pdf-content.php"; // Contenu HTML pour le PDF
+$html=ob_get_contents(); // Récupère le contenu HTML et nettoie la temporisation
+ob_end_clean(); // Nettoie la temporisation de sortie
+require_once "../vendor/autoload.php";
 $options = new Options();
-$options->set('defaultFont', 'Arial');
+$options->set('defaultFont', 'Courier');
 
 $dompdf = new Dompdf($options);
-$dompdf->loadHtml('<h1>Bonjour, ceci est un PDF généré par Dompdf !</h1>');
+$dompdf->loadHtml($html);
 $dompdf->setPaper('A4', 'portrait');
 $dompdf->render();
-
+$fichier = 'Mon pdf';
 // Force le téléchargement
-$dompdf->stream("document.pdf", ["Attachment" => true]);
+$dompdf->stream($fichier . ".pdf", ["Attachment" => true]);
 exit;
 ?>
-```
-
----
-
-**À vérifier aussi — structure des dossiers :**
-```
-projet/
-├── ADMIN/
-│   └── con_dbb.php
-├── dompdf/
-│   └── autoload.inc.php   ← doit exister ici
-└── Teachers/
-    └── genpdf.php
