@@ -3,7 +3,7 @@
    Design Bleu & Blanc Dynamique
    ======================================== */
 
-/* Reset & Base */
+
 * {
     margin: 0;
     padding: 0;
@@ -17,7 +17,7 @@ body {
     padding: 20px;
 }
 
-/* Div En-tête Principal */
+
 body > div {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
