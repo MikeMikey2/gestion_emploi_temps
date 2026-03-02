@@ -6,8 +6,18 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'enseignant') {
 }
 include_once "../ADMIN/con_dbb.php";
 if(isset($_POST['btn'])) {
-    header("Location: pdf-content.php");
-    exit();
+    $code_cours = $_POST['code_cours'];
+    $nom_leçon = $_POST['nom_leçon'];
+    $corp = $_POST['corp'];
+    $lesson=mysqli_query($con, "INSERT INTO LEÇON (code_cours, nom_leçon, corp) VALUES ('$code_cours', '$nom_leçon', '$corp')");
+    $req=$lesson->fetch_all(MYSQLI_ASSOC);
+    if($req){
+       header("Location: pdf-content.php");
+       exit();
+    }else{
+        echo "Erreur";
+    }
+    
 }
 ?>
 <!DOCTYPE html>
@@ -33,6 +43,9 @@ if(isset($_POST['btn'])) {
         <h1>Mes leçons</h1>
         <p>Contenu des leçons à venir...</p>
         <form action="#" method="post">
+            <h1><input type="text" name="code_cours" placeholder="Nom de la matière"></h1>
+            <h2><input type="text" name="nom_leçon" placeholder="Nom de la leçon"></h2>
+            <textarea name="corp" id="" placeholder="Contenu de la leçon"></textarea>
             <button class="btn-primary" name="btn">Envoyer</button>
         </form>
     </section>
