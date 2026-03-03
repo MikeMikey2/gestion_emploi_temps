@@ -1,16 +1,12 @@
 <?php
-session_start(); // ← manquant !
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'enseignant') { 
-    header("Location: ../index.php"); 
-    exit; 
-}
+session_start(); 
 include_once "../ADMIN/con_dbb.php";
 $id = (int)$_SESSION['id_personne'];
 if(isset($_POST['btn'])) {
-    $code_cours = $_POST['code_cours'];
-    $nom_leçon = $_POST['nom_leçon'];
+    $id_cours = $_POST['id_cours'];
+    $title = $_POST['title'];
     $corp = $_POST['corp'];
-    $lesson=mysqli_query($con, "INSERT INTO LEÇON (code_cours, nom_leçon, corp, id_personne) VALUES ('$code_cours', '$nom_leçon', '$corp', $id)");
+    $lesson=mysqli_query($con, "INSERT INTO LEÇON (id_cours, titre, corp, id_personne) VALUES ('$id_cours', '$title', '$corp', $id)");
     $req=$lesson->fetch_all(MYSQLI_ASSOC);
     if($req){
        header("Location: pdf-content.php");
@@ -40,15 +36,71 @@ if(isset($_POST['btn'])) {
             <li><a href="../logout.php" class="<?= (basename($_SERVER['PHP_SELF'])=='../logout.php') ? 'nav-active' :'' ?>"><img src="../icons/back.jpeg" alt="20" width="30">Deconnexion</a></li>
         </ul>
     </nav>
-    <section>
-        <h1>Mes leçons</h1>
-        <p>Contenu des leçons à venir...</p>
-        <form action="#" method="post">
-            <h1><input type="text" name="code_cours" placeholder="Nom de la matière"></h1>
-            <h2><input type="text" name="nom_leçon" placeholder="Nom de la leçon"></h2>
-            <textarea name="corp" id="" placeholder="Contenu de la leçon"></textarea>
-            <button class="btn-primary" name="btn">Envoyer</button>
+        <section class="form-container">
+        <h1>📝 Créer une nouvelle leçon</h1>
+        <form action="" method="post">
+                <div class="row">
+                        <div class="form-group col-1">
+                                <label for="code_cours">Matière / Code du cours</label>
+                                <input list="cours_list" id="id_cours" name="id_cours" class="form-control" placeholder="Entrer le code du cours" maxlength="40" aria-describedby="code_help" required>
+                                <datalist id="cours_list">
+                                        <option value="MATH101">
+                                        <option value="PHY101">
+                                        <option value="FR101">
+                                </datalist>
+                                <small id="code_help" class="form-help">Sélectionnez ou tapez un code/matière.</small>
+                        </div>
+                        <div class="form-group col-2">
+                                <label for="title">Titre de la leçon</label>
+                                <input id="title" type="text" name="title" class="form-control" placeholder="Entrer le titre de la leçon" maxlength="120" aria-describedby="title_count" required>
+                                <small id="title_count" class="form-help">0 / 120 caractères</small>
+                        </div>
+                </div>
+
+                <div class="form-group">
+                        <label for="corp">Contenu de la leçon</label>
+                        <textarea name="corp" id="corp" class="form-control textarea-rich" placeholder="Rédigez votre leçon..." required></textarea>
+                        <small id="corp_stats" class="form-help">0 mots</small>
+                </div>
+
+                <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="location.href='Emploi.php'">Annuler</button>
+                        <button type="submit" name="btn" class="btn-submit">🚀 Publier la leçon</button>
+                </div>
         </form>
-    </section>
+</section>
+<script>
+    tinymce.init({
+        selector: '#corp',
+        height: 700,
+        plugins: 'lists link image table code help wordcount autoresize fullscreen',
+        toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | outdent indent | link table | removeformat | code | fullscreen',
+        menubar: false,
+        branding: false,
+        autosave_ask_before_unload: false,
+        autoresize_min_height: 400,
+        setup: function (editor) {
+            function updateStats() {
+                var text = editor.getContent({format: 'text'}).trim();
+                var words = text.length ? text.split(/\s+/).length : 0;
+                document.getElementById('corp_stats').textContent = words + ' mot' + (words>1?'s':'');
+            }
+            editor.on('keyup change NodeChange', updateStats);
+            editor.on('init', updateStats);
+        }
+    });
+
+    // compteur titre
+    (function(){
+        var title = document.getElementById('title');
+        var counter = document.getElementById('title_count');
+        function updateTitle(){
+            var len = title.value.length;
+            counter.textContent = len + ' / ' + title.maxLength + ' caractères';
+        }
+        title.addEventListener('input', updateTitle);
+        updateTitle();
+    })();
+</script>
 </body>
 </html>
