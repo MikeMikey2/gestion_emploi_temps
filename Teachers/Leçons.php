@@ -5,11 +5,12 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'enseignant') {
     exit; 
 }
 include_once "../ADMIN/con_dbb.php";
+$id = (int)$_SESSION['id_personne'];
 if(isset($_POST['btn'])) {
     $code_cours = $_POST['code_cours'];
     $nom_leçon = $_POST['nom_leçon'];
     $corp = $_POST['corp'];
-    $lesson=mysqli_query($con, "INSERT INTO LEÇON (code_cours, nom_leçon, corp) VALUES ('$code_cours', '$nom_leçon', '$corp')");
+    $lesson=mysqli_query($con, "INSERT INTO LEÇON (code_cours, nom_leçon, corp, id_personne) VALUES ('$code_cours', '$nom_leçon', '$corp', $id)");
     $req=$lesson->fetch_all(MYSQLI_ASSOC);
     if($req){
        header("Location: pdf-content.php");

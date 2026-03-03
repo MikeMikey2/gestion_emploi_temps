@@ -1,5 +1,7 @@
 <?php
+session_start();
 include_once "../ADMIN/con_dbb.php";
+$id=$_SESSION['id_personne'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +17,7 @@ include_once "../ADMIN/con_dbb.php";
        <h5 class="menu">MENU</h5>
         <ul class="nav-list">
             <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Emploi.php') ? 'nav-active' : '' ?>"><img src="../icons/evenement.png" alt="20" width="30"> Emploi du temps</a></li>
-            <li><a href="Requetes.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Requetes.php') ? 'nav-active' : '' ?>"><img src="../icons/message.jpeg" alt="20" width="30">Requetes <span class="badge"><?php echo mysqli_num_rows(mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='acceptée' OR statut='refusée'")); ?></span></a></li>
+            <li><a href="Requetes.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Requetes.php') ? 'nav-active' : '' ?>"><img src="../icons/message.jpeg" alt="20" width="30">Requetes <span class="badge"><?php echo mysqli_num_rows(mysqli_query($con, "SELECT r.* FROM REQUETE r JOIN PERSONNE p ON r.id_personne = p.id_personne WHERE (r.statut='acceptée' OR r.statut='refusée') AND r.id_personne=$id")); ?></span></a></li>
             <li><a href="Leçons.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Leçons.php') ? 'nav-active' : '' ?>"><img src="../icons/prof.png" alt="20" width="30">Leçons</a></li>
             <li><a href="../logout.php" class="<?= (basename($_SERVER['PHP_SELF'])=='../logout.php') ? 'nav-active' :'' ?>"><img src="../icons/back.jpeg" alt="20" width="30">Deconnexion</a></li>
         </ul>
@@ -47,7 +49,7 @@ include_once "../ADMIN/con_dbb.php";
                         
 
                         // Récupérer et afficher toutes les requêtes accept (sans regroupement par conteneur)
-                        $str2 = mysqli_query($con, "   SELECT r.*, p.nom, p.prenom FROM REQUETE r JOIN PERSONNE p ON r.id_personne = p.id_personne WHERE r.statut='acceptée' ORDER BY r.date_envoi DESC");
+                        $str2 = mysqli_query($con, "   SELECT r.*, p.nom, p.prenom FROM REQUETE r JOIN PERSONNE p ON r.id_personne = p.id_personne WHERE r.statut='acceptée' AND r.id_personne=$id ORDER BY r.date_envoi DESC");
                         if($str2 && mysqli_num_rows($str2) > 0){
                             while($re = mysqli_fetch_assoc($str2)){
                                 render_accept_card($re);
@@ -81,7 +83,7 @@ include_once "../ADMIN/con_dbb.php";
                         
 
                         // Récupérer et afficher toutes les requêtes refusées
-                        $str3 = mysqli_query($con, "SELECT r.*, p.nom, p.prenom FROM REQUETE r JOIN PERSONNE p ON r.id_personne = p.id_personne WHERE r.statut='refusée' ORDER BY r.date_envoi DESC");
+                        $str3 = mysqli_query($con, "SELECT r.*, p.nom, p.prenom FROM REQUETE r JOIN PERSONNE p ON r.id_personne = p.id_personne WHERE r.statut='refusée' AND r.id_personne=$id ORDER BY r.date_envoi DESC");
                         if($str3 && mysqli_num_rows($str3) > 0){
                             while($res = mysqli_fetch_assoc($str3)){
                                 render_pending_card($res);
