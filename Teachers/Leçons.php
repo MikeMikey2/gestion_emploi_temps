@@ -1,16 +1,14 @@
 <?php
 session_start(); 
 include_once "../ADMIN/con_dbb.php";
-$id = (int)$_SESSION['id_personne'];
+   $id = (int)$_SESSION['id_personne'];
 if(isset($_POST['btn'])) {
     $id_cours = $_POST['id_cours'];
     $title = $_POST['title'];
     $corp = $_POST['corp'];
-    var_dump($_POST);
-    die();
-    $lesson=$con->prepare("INSERT INTO LEÇON (id_cours, titre, corp, id_personne) VALUES (?, ?, ?, ?)");
-    $lesson->bind_param("sssi", $id_cours, $title, $corp, $id);
-    if($lesson->execute()){
+    $lesson= mysqli_prepare($con, "INSERT INTO LEÇON (id_cours, titre, corp, id_personne) VALUES (?, ?, ?, ?)");
+    mysqli_stmt_bind_param($lesson, "sssi", $id_cours, $title, $corp, $id);
+    if(mysqli_stmt_execute($lesson)){
          $_SESSION['lecon_title']     = $title;
          $_SESSION['lecon_corp']      = $corp;
          $_SESSION['lecon_id_cours']  = $id_cours;
