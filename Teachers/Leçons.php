@@ -6,9 +6,14 @@ if(isset($_POST['btn'])) {
     $id_cours = $_POST['id_cours'];
     $title = $_POST['title'];
     $corp = $_POST['corp'];
-    $lesson=mysqli_query($con, "INSERT INTO LEÇON (id_cours, titre, corp, id_personne) VALUES ('$id_cours', '$title', '$corp', $id)");
-    $req=$lesson->fetch_all(MYSQLI_ASSOC);
-    if($req){
+    var_dump($_POST);
+    die();
+    $lesson=$con->prepare("INSERT INTO LEÇON (id_cours, titre, corp, id_personne) VALUES (?, ?, ?, ?)");
+    $lesson->bind_param("sssi", $id_cours, $title, $corp, $id);
+    if($lesson->execute()){
+         $_SESSION['lecon_title']     = $title;
+         $_SESSION['lecon_corp']      = $corp;
+         $_SESSION['lecon_id_cours']  = $id_cours;
        header("Location: pdf-content.php");
        exit();
     }else{
@@ -37,7 +42,7 @@ if(isset($_POST['btn'])) {
         </ul>
     </nav>
         <section class="form-container">
-        <h1>📝 Créer une nouvelle leçon</h1>
+        <h1>Créer une nouvelle leçon</h1>
         <form action="" method="post">
                 <div class="row">
                         <div class="form-group col-1">
@@ -53,54 +58,19 @@ if(isset($_POST['btn'])) {
                         <div class="form-group col-2">
                                 <label for="title">Titre de la leçon</label>
                                 <input id="title" type="text" name="title" class="form-control" placeholder="Entrer le titre de la leçon" maxlength="120" aria-describedby="title_count" required>
-                                <small id="title_count" class="form-help">0 / 120 caractères</small>
                         </div>
                 </div>
 
                 <div class="form-group">
                         <label for="corp">Contenu de la leçon</label>
                         <textarea name="corp" id="corp" class="form-control textarea-rich" placeholder="Rédigez votre leçon..." required></textarea>
-                        <small id="corp_stats" class="form-help">0 mots</small>
                 </div>
 
                 <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="location.href='Emploi.php'">Annuler</button>
-                        <button type="submit" name="btn" class="btn-submit">🚀 Publier la leçon</button>
+                        <button type="submit" name="btn" class="btn-submit"> Publier la leçon</button>
                 </div>
         </form>
 </section>
-<script>
-    tinymce.init({
-        selector: '#corp',
-        height: 700,
-        plugins: 'lists link image table code help wordcount autoresize fullscreen',
-        toolbar: 'undo redo | formatselect | bold italic underline | alignleft aligncenter alignright | bullist numlist | outdent indent | link table | removeformat | code | fullscreen',
-        menubar: false,
-        branding: false,
-        autosave_ask_before_unload: false,
-        autoresize_min_height: 400,
-        setup: function (editor) {
-            function updateStats() {
-                var text = editor.getContent({format: 'text'}).trim();
-                var words = text.length ? text.split(/\s+/).length : 0;
-                document.getElementById('corp_stats').textContent = words + ' mot' + (words>1?'s':'');
-            }
-            editor.on('keyup change NodeChange', updateStats);
-            editor.on('init', updateStats);
-        }
-    });
-
-    // compteur titre
-    (function(){
-        var title = document.getElementById('title');
-        var counter = document.getElementById('title_count');
-        function updateTitle(){
-            var len = title.value.length;
-            counter.textContent = len + ' / ' + title.maxLength + ' caractères';
-        }
-        title.addEventListener('input', updateTitle);
-        updateTitle();
-    })();
-</script>
 </body>
 </html>

@@ -1,6 +1,10 @@
 <?php
 session_start();
+$title      = $_SESSION['lecon_title']    ?? '';
+$corp       = $_SESSION['lecon_corp']     ?? '';
+$code_cours = $_SESSION['lecon_id_cours'] ?? '';
 include_once "../ADMIN/con_dbb.php";
+$id = (int)$_SESSION['id_personne'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,22 +26,14 @@ include_once "../ADMIN/con_dbb.php";
         </ul>
     </nav>
     <section>
-        <?php
-        $str= mysqli_query($con, "SELECT l.*,c.code_cours,c.description FROM LEÇON l JOIN COURS c ON l.id_cours = c.id_cours WHERE l.id_cours =$id_cours");
-        if($str && mysqli_num_rows($str) > 0){
-            while($row = mysqli_fetch_assoc($str)){
-                emploi_info($row);
-            }
-        } 
-        ?>
+       
         <div class="pdf-content">
-            <h2>Leçon 1: <?= $row['titre'] ?></h2>
-            <p><strong>Code du cours:</strong> <?= $row['code_cours'] ?></p>
-            <p><strong>Description:</strong> <?= $row['description'] ?></p>
-            <p><strong>Filière:</strong> <?= $row['filiere'] ?></p>
+            <h2>Leçon 1: <?= htmlspecialchars($title) ?></h2>
+            <p><strong>Code du cours:</strong> <?= htmlspecialchars($code_cours) ?></p>
+            <p><strong>Filière:</strong> <?= htmlspecialchars($filiere ?? 'Non spécifiée') ?></p>
             <hr>
             <div class="lesson-body">
-                <?= nl2br(htmlspecialchars($row['corp'])) ?>
+                <?= htmlspecialchars_decode($corp) ?>
             </div>
                 
 </body>
