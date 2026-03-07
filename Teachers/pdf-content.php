@@ -1,10 +1,14 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 session_start();
+include_once "../ADMIN/con_dbb.php";
 $title      = $_SESSION['lecon_title']    ?? '';
 $corp       = $_SESSION['lecon_corp']     ?? '';
 $code_cours = $_SESSION['lecon_id_cours'] ?? '';
-include_once "../ADMIN/con_dbb.php";
+$filiere    = $_SESSION['lecon_filiere']  ?? '';
 $id = (int)$_SESSION['id_personne'];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

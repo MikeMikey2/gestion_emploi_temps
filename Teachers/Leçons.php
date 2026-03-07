@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 session_start(); 
 include_once "../ADMIN/con_dbb.php";
    $id = (int)$_SESSION['id_personne'];
@@ -6,18 +8,19 @@ if(isset($_POST['btn'])) {
     $id_cours = $_POST['id_cours'];
     $title = $_POST['title'];
     $corp = $_POST['corp'];
-    $lesson= mysqli_prepare($con, "INSERT INTO LEÇON (id_cours, titre, corp, id_personne) VALUES (?, ?, ?, ?)");
-    mysqli_stmt_bind_param($lesson, "sssi", $id_cours, $title, $corp, $id);
+    $filiere = $_POST['filiere'];
+    $lesson= mysqli_prepare($con,"INSERT INTO LEÇON (id_cours, titre, corps, id_personne, filiere) VALUES (?, ?, ?, ?, ?)");
+    mysqli_stmt_bind_param($lesson, "issis", $id_cours, $title, $corp, $id, $filiere);
     if(mysqli_stmt_execute($lesson)){
          $_SESSION['lecon_title']     = $title;
          $_SESSION['lecon_corp']      = $corp;
          $_SESSION['lecon_id_cours']  = $id_cours;
+         $_SESSION['lecon_filiere']   = $filiere;
        header("Location: pdf-content.php");
        exit();
     }else{
         echo "Erreur";
     }
-    
 }
 ?>
 <!DOCTYPE html>
@@ -45,11 +48,13 @@ if(isset($_POST['btn'])) {
                 <div class="row">
                         <div class="form-group col-1">
                                 <label for="code_cours">Matière / Code du cours</label>
-                                <input list="cours_list" id="id_cours" name="id_cours" class="form-control" placeholder="Entrer le code du cours" maxlength="40" aria-describedby="code_help" required>
+                                <input list="cours_list"  name="id_cours" class="form-control" placeholder="Entrer le code du cours" maxlength="40" aria-describedby="code_help" required>
                                 <datalist id="cours_list">
-                                        <option value="MATH101">
-                                        <option value="PHY101">
-                                        <option value="FR101">
+                                        <option value="1">MATH301</option>
+                                        <option value="2">PHY402</option>
+                                        <option value="3">INFO201</option>
+                                        <option value="4">INFO305</option>
+                                        <option value="5">INFO401</option>
                                 </datalist>
                                 <small id="code_help" class="form-help">Sélectionnez ou tapez un code/matière.</small>
                         </div>
@@ -63,7 +68,10 @@ if(isset($_POST['btn'])) {
                         <label for="corp">Contenu de la leçon</label>
                         <textarea name="corp" id="corp" class="form-control textarea-rich" placeholder="Rédigez votre leçon..." required></textarea>
                 </div>
-
+                <div class="form-group">
+                        <input id="filiere" type="text" name="filiere" class="form-control" placeholder="Entrer la filière concernée" maxlength="50" aria-describedby="filiere_help">
+                        <small id="filiere_help" class="form-help">Indiquez la filière si la leçon est spécifique à une.</small>
+                </div>
                 <div class="form-actions">
                         <button type="button" class="btn-cancel" onclick="location.href='Emploi.php'">Annuler</button>
                         <button type="submit" name="btn" class="btn-submit"> Publier la leçon</button>
