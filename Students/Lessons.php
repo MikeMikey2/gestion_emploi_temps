@@ -1,10 +1,11 @@
 <?php
 session_start(); // ← manquant !
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'enseignant') { 
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'etudiant') { 
     header("Location: ../index.php"); 
     exit; 
 }
 include_once "../ADMIN/con_dbb.php";
+$filiere = $_SESSION['filiere'];
 if(isset($_POST['generate_pdf'])) {
     header("Location: ../Teachers/genpdf.php");
     exit();
