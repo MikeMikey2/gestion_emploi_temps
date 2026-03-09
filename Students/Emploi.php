@@ -1,11 +1,39 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'etudiant') { header("Location: ../index.php"); exit; }
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'etudiant') { 
+    header("Location: ../index.php"); 
+    exit; 
+}
 include_once "../ADMIN/con_dbb.php";
-$id = $_SESSION['id_personne'];
+
 $filiere = $_SESSION['filiere'];
 
+//Definition d'une fonction pour afficher les informations d'un créneau
+function emploi_info($row) {
+    ?>
+    <div class="week-day">
+        <div class="day-header">
+            <span><?= htmlspecialchars($row['date'] ?? '') ?></span>
+        </div>
+        <div class="day-slots">
+            <div class="time-slot">
+                <div class="slot-time">
+                    <?= htmlspecialchars($row['heure_debut'] ?? '') ?> - <?= htmlspecialchars($row['heure_fin'] ?? '') ?>
+                </div>
+                <div class="slot-card">
+                    <h4><?= htmlspecialchars($row['code_cours'] ?? '') ?></h4>
+                    <p><?= htmlspecialchars($row['description'] ?? '') ?></p>
+                    <div class="slot-meta">
+                        <span>📍 Salle <?= htmlspecialchars($row['salle'] ?? '') ?></span>
+                        <span><?= htmlspecialchars($row['filiere'] ?? '') ?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,12 +45,15 @@ $filiere = $_SESSION['filiere'];
 </head>
 <body>
     <div class="Gtitre"><b>GESTION DE L'EMPLOI DU TEMPS</b></div>
-      <nav>
-     <h5 class="menu">MENU</h5>
-         <ul class="nav-list">
-            <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Emploi.php') ? 'nav-active' : '' ?>"><img src="../icons/evenement.png" alt="20" width="30"> Emploi du temps</a></li>
-            <li><a href="Lessons.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Lessons.php') ? 'nav-active' : '' ?>"><img src="../icons/prof.png" alt="20" width="30">Leçons</a></li>
-            <li><a href="../logout.php" class="<?= (basename($_SERVER['PHP_SELF'])=='../logout.php') ? 'nav-active' :'' ?>"><img src="../icons/back.jpeg" alt="20" width="30">Deconnexion</a></li>
+    <nav>
+        <h5 class="menu">MENU</h5>
+        <ul class="nav-list">
+            <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF']) == 'Emploi.php') ? 'nav-active' : '' ?>">
+                <img src="../icons/evenement.png" alt="" width="30"> Emploi du temps</a></li>
+            <li><a href="Lessons.php" class="<?= (basename($_SERVER['PHP_SELF']) == 'Lessons.php') ? 'nav-active' : '' ?>">
+                <img src="../icons/prof.png" alt="" width="30"> Leçons</a></li>
+            <li><a href="../logout.php">
+                <img src="../icons/back.jpeg" alt="" width="30"> Deconnexion</a></li>
         </ul>
     </nav>
     <section>
@@ -31,45 +62,28 @@ $filiere = $_SESSION['filiere'];
                 <div class="section-header">
                     <h1>Mon emploi du temps</h1>
                 </div>
-                
+
                 <div class="week-schedule">
-                    <div class="week-day">
-                        <?php
-                          function emploi_info($row){
-                         ?>
-                        <div class="day-header">
-                            
-                            <span><?= htmlspecialchars($row['date']??'') ?></span>
-                        </div>
-                        <div class="day-slots">
-                            <div class="time-slot">
-                                <div class="slot-time"><?= htmlspecialchars($row['heure_debut']??'') ?> - <?= htmlspecialchars($row['heure_fin']??'') ?></div>
-                                <div class="slot-card">
-                                    <h4><?= htmlspecialchars($row['code_cours']??'') ?></h4>
-                                    <p><?= htmlspecialchars($row['description']??'') ?></p>
-                                    <div class="slot-meta">
-                                        <span>📍 Salle <?= htmlspecialchars($row['salle']??'') ?></span>
-                                        <span><?=htmlspecialchars($row['filiere'])?></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                            <?php 
-                 }
-                    $stmt = $con->prepare("SELECT c.*, co.code_cours, co.description FROM CRENEAU c JOIN COURS co ON c.id_cours = co.id_cours WHERE c.id_personne = ? AND c.filiere = ? ORDER BY c.date, c.heure_debut");
-                $stmt->bind_param("ii", $id, $_SESSION['filiere']);
-                $stmt->execute();
-                $res = $stmt->get_result();
-                while($row = $res->fetch_assoc()){
-                       emploi_info($row);
-                }
-                ?>
-                    </div>
+                    <?php
+                    
+                    $stmt = $con->prepare("SELECT c.*, co.code_cours, co.description, c.salle FROM CRENEAU c JOIN COURS co ON c.id_cours = co.id_cours WHERE c.filiere = ? ORDER BY c.date, c.heure_debut");
+                    $stmt->bind_param("s", $filiere);
+                    $stmt->execute();
+
+                    $found = false;
+                    while ($row = $stmt->get_result()->fetch_assoc()) {
+                        $found = true;
+                        emploi_info($row);
+                    }
+
+                    if (!$stmt) { die("Erreur de préparation : " . $con->error);}
+                          $stmt->execute();
+                    if ($stmt->error) { die("Erreur d'exécution : " . $stmt->error);}
+                    ?>
                 </div>
+
             </main>
         </div>
-
     </section>
-        
 </body>
 </html>
