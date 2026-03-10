@@ -3,11 +3,19 @@ session_start();
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'enseignant') { header("Location: ../index.php"); exit; }
 include_once "../ADMIN/con_dbb.php";
-$id = $_SESSION['id_personne'];
+$id = (int)$_SESSION['id_personne'];
 if(isset($_POST['btn'])){
     header("Location: rediger.php");
+    exit();
 }
-
+// Calcul lundi et dimanche de la semaine courante
+$lundi    = date('Y-m-d', strtotime('monday this week'));
+$dimanche = date('Y-m-d', strtotime('sunday this week'));
+// Remplace la ligne du badge par ceci :
+$stmt_badge = $con->prepare("SELECT COUNT(*) as total FROM REQUETE WHERE (statut='acceptée' OR statut='refusée') AND id_personne = ?");
+$stmt_badge->bind_param("i", $id);
+$stmt_badge->execute();
+$badge = $stmt_badge->get_result()->fetch_assoc()['total'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +31,7 @@ if(isset($_POST['btn'])){
      <h5 class="menu">MENU</h5>
          <ul class="nav-list">
             <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Emploi.php') ? 'nav-active' : '' ?>"><img src="../icons/evenement.png" alt="20" width="30"> Emploi du temps</a></li>
-            <li><a href="Requetes.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Requetes.php') ? 'nav-active' : '' ?>"><img src="../icons/message.jpeg" alt="20" width="30">Requetes <span class="badge"><?php echo mysqli_num_rows(mysqli_query($con, "SELECT r.* FROM REQUETE r JOIN PERSONNE p ON r.id_personne = p.id_personne WHERE (r.statut='acceptée' OR r.statut='refusée') AND r.id_personne=$id")); ?></span></a></li>
+            <li><a href="Requetes.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Requetes.php') ? 'nav-active' : '' ?>"><img src="../icons/message.jpeg" alt="20" width="30">Requetes <span class="badge"><?php echo $badge; ?></span></a></li>
             <li><a href="Leçons.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Leçons.php') ? 'nav-active' : '' ?>"><img src="../icons/prof.png" alt="20" width="30">Leçons</a></li>
         </ul>
         <ul class="nav-footer">
@@ -69,13 +77,19 @@ if(isset($_POST['btn'])){
                         </div>
                             <?php 
                  }
-                    $stmt = $con->prepare("SELECT c.*, co.code_cours, co.description FROM CRENEAU c JOIN COURS co ON c.id_cours = co.id_cours WHERE c.id_personne = ? ORDER BY c.date, c.heure_debut");
-                $stmt->bind_param("i", $id);
-                $stmt->execute();
-                $res = $stmt->get_result();
-                while($row = $res->fetch_assoc()){
-                       emploi_info($row);
-                }
+                   $stmt = $con->prepare("SELECT c.*, co.code_cours, co.description, c.salle FROM CRENEAU c JOIN COURS co ON c.id_cours = co.id_cours WHERE c.id_personne = ? ORDER BY c.date, c.heure_debut");
+                    $stmt->bind_param("i", $id);
+                    $stmt->execute();
+
+                    $found = false;
+                    while ($row = $stmt->get_result()->fetch_assoc()) {
+                        $found = true;
+                        emploi_info($row);
+                    }
+
+                    if (!$stmt) { die("Erreur de préparation : " . $con->error);}
+                          $stmt->execute();
+                    if ($stmt->error) { die("Erreur d'exécution : " . $stmt->error);}
                 ?>
                     </div>
                 </div>
