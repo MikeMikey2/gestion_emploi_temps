@@ -73,6 +73,10 @@ nav {
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
     border: 2px solid #667eea;
     animation: slideRight 0.6s ease-out;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 140px);
+    justify-content: space-between;
 }
 
 @keyframes slideRight {
@@ -98,6 +102,7 @@ nav {
 
 .nav-list {
     list-style: none;
+    flex: 1;
 }
 
 .nav-list li {
@@ -143,6 +148,55 @@ nav {
 }
 
 .nav-list a:hover img {
+    filter: brightness(0.95) saturate(1.05);
+    transform: translateX(4px);
+}
+
+.nav-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 2px solid #e6eefc;
+}
+
+.nav-footer li {
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.nav-footer li:hover {
+    transform: translateX(10px);
+}
+
+.nav-footer a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #2d3748;
+    padding: 12px 15px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.nav-footer a:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.nav-footer a img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 12px;
+    filter: none;
+    transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.nav-footer a:hover img {
     filter: brightness(0.95) saturate(1.05);
     transform: translateX(4px);
 }
