@@ -7,13 +7,11 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'etudiant') {
     header("Location: ../index.php");
     exit;
 }
-
+$id = (int)$_SESSION['id_personne'];
 include_once "../ADMIN/con_dbb.php";
 
-$id = (int)$_SESSION['id_personne'];
-
 // Récupérer la filière de l'étudiant connecté
-$stmt_etudiant = $con->prepare("SELECT filiere FROM PERSONNE WHERE id_personne = ? AND enseignant = 0");
+$stmt_etudiant = $con->prepare("SELECT filiere FROM PERSONNE WHERE id_personne = ? ");
 $stmt_etudiant->bind_param("i", $id);
 $stmt_etudiant->execute();
 $etudiant = $stmt_etudiant->get_result()->fetch_assoc();
@@ -25,7 +23,7 @@ if (!$etudiant || !$etudiant['filiere']) {
 $filiere = $etudiant['filiere'];
 
 // Récupérer les leçons de la filière de l'étudiant (créées par des enseignants)
-$stmt = $con->prepare("SELECT l.* FROM LEÇON l JOIN PERSONNE p ON l.id_personne = p.id_personne WHERE l.filiere = ? AND p.enseignant = 0 ORDER BY l.id_leçon DESC LIMIT 1");
+$stmt = $con->prepare("SELECT l.* FROM LEÇON l JOIN PERSONNE p ON l.id_personne = p.id_personne WHERE l.filiere = ? AND p.enseignant = 1 ORDER BY l.id_leçon DESC LIMIT 1");
 $stmt->bind_param("s", $filiere);
 $stmt->execute();
 $res = $stmt->get_result();

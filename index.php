@@ -29,12 +29,13 @@ if(isset($_POST['acces'])){
         $res2 = $stmt2->get_result();
 
         if($res2 && $res2->num_rows >= 1){
-            $_SESSION['email'] = $email;
-            $_SESSION['role'] = 'etudiant';
-            $_SESSION['filiere'] = $res2->fetch_assoc()['filiere']; // Stocker la filière dans la session
-            $_SESSION['id_personne'] = $res2->fetch_assoc()['id_personne']; // Stocker l'id_personne dans la session
-            header("Location: Students/Emploi.php");
-            exit();
+    $row2 = $res2->fetch_assoc(); // Une seule fois
+    $_SESSION['email'] = $email;
+    $_SESSION['role'] = 'etudiant';
+    $_SESSION['filiere'] = $row2['filiere'];
+    $_SESSION['id_personne'] = $row2['id_personne'];
+    header("Location: Students/Emploi.php");
+    exit();
         }else{
             $erreur = "Email ou mot de passe incorrect !";
         }

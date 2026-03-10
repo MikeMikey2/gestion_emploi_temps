@@ -1,7 +1,6 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-session_start(); 
 include_once "../ADMIN/con_dbb.php";
    $id = (int)$_SESSION['id_personne'];
 if(isset($_POST['btn'])) {
@@ -12,9 +11,6 @@ if(isset($_POST['btn'])) {
     $lesson= mysqli_prepare($con,"INSERT INTO LEÇON (id_cours, titre, corps, id_personne, filiere) VALUES (?, ?, ?, ?, ?)");
     mysqli_stmt_bind_param($lesson, "issis", $id_cours, $title, $corp, $id, $filiere);
     if(mysqli_stmt_execute($lesson)){
-
-         $_SESSION['lecon_filiere']   = $filiere;
-         
        header("Location: pdf-content.php");
        exit();
     }else{
