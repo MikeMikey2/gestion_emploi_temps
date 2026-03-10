@@ -26,6 +26,8 @@ if(isset($_POST['generate_pdf'])) {
          <ul class="nav-list">
             <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Emploi.php') ? 'nav-active' : '' ?>"><img src="../icons/evenement.png" alt="20" width="30"> Emploi du temps</a></li>
             <li><a href="Lessons.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Lessons.php') ? 'nav-active' : '' ?>"><img src="../icons/prof.png" alt="20" width="30">Leçons</a></li>
+        </ul>
+        <ul class="nav-footer">
             <li><a href="../logout.php" class="<?= (basename($_SERVER['PHP_SELF'])=='../logout.php') ? 'nav-active' :'' ?>"><img src="../icons/back.jpeg" alt="20" width="30">Deconnexion</a></li>
         </ul>
     </nav>
