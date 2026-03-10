@@ -10,6 +10,10 @@ if(isset($_POST['generate_pdf'])) {
     header("Location: ../Teachers/genpdf.php");
     exit();
 }
+if(isset($_POST['view'])) {
+    header("Location: ../Teachers/pdf-content.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,6 +40,9 @@ if(isset($_POST['generate_pdf'])) {
         <p>Contenu des leçons à venir...</p>
         <form action="#" method="post">
             <button class="btn-primary" name="generate_pdf">Générer PDF</button>
+        </form>
+        <form action="#" method="POST">
+            <button class="btn-view" name="view">Voir les détails</button>
         </form>
     </section>
 </body>

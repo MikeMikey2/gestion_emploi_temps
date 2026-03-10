@@ -8,9 +8,7 @@ if(isset($_POST['btn'])){
     header("Location: rediger.php");
     exit();
 }
-// Calcul lundi et dimanche de la semaine courante
-$lundi    = date('Y-m-d', strtotime('monday this week'));
-$dimanche = date('Y-m-d', strtotime('sunday this week'));
+
 // Remplace la ligne du badge par ceci :
 $stmt_badge = $con->prepare("SELECT COUNT(*) as total FROM REQUETE WHERE (statut='acceptée' OR statut='refusée') AND id_personne = ?");
 $stmt_badge->bind_param("i", $id);
@@ -77,7 +75,7 @@ $badge = $stmt_badge->get_result()->fetch_assoc()['total'];
                         </div>
                             <?php 
                  }
-                   $stmt = $con->prepare("SELECT c.*, co.code_cours, co.description, c.salle FROM CRENEAU c JOIN COURS co ON c.id_cours = co.id_cours WHERE c.id_personne = ? ORDER BY c.date, c.heure_debut");
+                   $stmt = $con->prepare("SELECT c.*, co.code_cours, co.description, c.salle FROM CRENEAU c JOIN COURS co ON c.id_cours = co.id_cours WHERE c.id_personne = ?  ORDER BY c.date, c.heure_debut");
                     $stmt->bind_param("i", $id);
                     $stmt->execute();
 

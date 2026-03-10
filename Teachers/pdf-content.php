@@ -2,45 +2,60 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
+
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'etudiant') {
+    header("Location: ../index.php");
+    exit;
+}
+
 include_once "../ADMIN/con_dbb.php";
-$title      = $_SESSION['lecon_title']    ?? '';
-$corp       = $_SESSION['lecon_corp']     ?? '';
-$code_cours = $_SESSION['lecon_id_cours'] ?? '';
-$filiere    = $_SESSION['lecon_filiere']  ?? '';
+
 $id = (int)$_SESSION['id_personne'];
 
+// Récupérer la filière de l'étudiant connecté
+$stmt_etudiant = $con->prepare("SELECT filiere FROM PERSONNE WHERE id_personne = ?");
+$stmt_etudiant->bind_param("i", $id);
+$stmt_etudiant->execute();
+$etudiant = $stmt_etudiant->get_result()->fetch_assoc();
+
+if (!$etudiant || !$etudiant['filiere']) {
+    die("Filière introuvable pour cet étudiant.");
+}
+
+$filiere = $etudiant['filiere'];
+
+// Récupérer les leçons de la filière de l'étudiant (créées par des enseignants)
+$stmt = $con->prepare("SELECT l.* FROM LEÇON l JOIN PERSONNE p ON l.id_personne = p.id_personne WHERE l.filiere = ? AND p.enseignant = 1 ORDER BY l.id_leçon DESC LIMIT 1");
+$stmt->bind_param("s", $filiere);
+$stmt->execute();
+$res = $stmt->get_result();
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contenu PDF</title>
+    <title>Mes Leçons</title>
     <link rel="stylesheet" href="../style/style2.css">
 </head>
 <body>
-    <div class="Gtitre"><b>GESTION DE L'EMPLOI DU TEMPS</b></div>
-      <nav>
-     <h5 class="menu">MENU</h5>
-         <ul class="nav-list">
-            <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Emploi.php') ? 'nav-active' : '' ?>"><img src="../icons/evenement.png" alt="20" width="30"> Emploi du temps</a></li>
-            <li><a href="Requetes.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Requetes.php') ? 'nav-active' : '' ?>"><img src="../icons/message.jpeg" alt="20" width="30">Requetes <span class="badge"><?php echo mysqli_num_rows(mysqli_query($con, "SELECT r.* FROM REQUETE r JOIN PERSONNE p ON r.id_personne = p.id_personne WHERE (r.statut='acceptée' OR r.statut='refusée') AND r.id_personne=$id")); ?></span></a></li>
-            <li><a href="Leçons.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Leçons.php') ? 'nav-active' : '' ?>"><img src="../icons/prof.png" alt="20" width="30">Leçons</a></li>
-        </ul>
-        <ul class="nav-footer">
-            <li><a href="../logout.php" class="<?= (basename($_SERVER['PHP_SELF'])=='../logout.php') ? 'nav-active' :'' ?>"><img src="../icons/back.jpeg" alt="20" width="30">Deconnexion</a></li>
-        </ul>
-    </nav>
-    <section>
-       
+<div class="Gtitre"><b>COURS</b></div>
+<section>
+<?php if ($res->num_rows === 0): ?>
+    <p>Aucune leçon disponible pour votre filière.</p>
+<?php else: ?>
+    <?php while($row = $res->fetch_assoc()): ?>
         <div class="pdf-content">
-            <h2>Leçon 1: <?= htmlspecialchars($title) ?></h2>
-            <p><strong>Code du cours:</strong> <?= htmlspecialchars($code_cours) ?></p>
-            <p><strong>Filière:</strong> <?= htmlspecialchars($filiere ?? 'Non spécifiée') ?></p>
+            <h2>Leçon <?= htmlspecialchars($row['id_leçon']) ?> : <?= htmlspecialchars($row['titre']) ?></h2>
+            <p><strong>Code du cours :</strong> <?= htmlspecialchars($row['id_cours']) ?></p>
+            <p><strong>Filière :</strong> <?= htmlspecialchars($row['filiere']) ?></p>
             <hr>
             <div class="lesson-body">
-                <?= htmlspecialchars_decode($corp) ?>
+                <?= htmlspecialchars($row['corps']) ?>
             </div>
-                
+        </div>
+    <?php endwhile; ?>
+<?php endif; ?>
+</section>
 </body>
 </html>
