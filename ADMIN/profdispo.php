@@ -7,8 +7,6 @@ session_start();
 $stmt = $con->prepare("SELECT d.*,p.nom,p.prenom FROM DISPONIBILITE d JOIN PERSONNE p ON d.id_personne = p.id_personne WHERE p.enseignant = 1  ORDER BY d.date, d.heure");
 $stmt->execute();
 $result = $stmt->get_result();
-foreach($result as $row) {
-
 
 ?>
 <!DOCTYPE html>
@@ -20,7 +18,7 @@ foreach($result as $row) {
     <link rel="stylesheet" href="../style/style2.css">
 </head>
 <body>
-    <div class="Gtitre"><b>GESTION DE L'EMPLOI DU TEMPS</b></div>
+    <div class="Gtitre"><b>ENSEIGNANTS DISPONIBLES</b></div>
       <nav>
      <h5 class="menu">MENU</h5>
          <ul class="nav-list">
@@ -34,8 +32,9 @@ foreach($result as $row) {
             <li><a href="../logout.php" class="<?= (basename($_SERVER['PHP_SELF'])=='../logout.php') ? 'nav-active' :'' ?>"><img src="../icons/back.jpeg" alt="20" width="30">Deconnexion</a></li>
         </ul>
     </nav>
+    <?php foreach($result as $row) { ?>
     <section>
-        <h1>Disponibilité</h1>
+        
         <p><strong>Nom:</strong> <?= htmlspecialchars($row['nom'] ?? '') ?></p>
         <p><strong>Prénom:</strong> <?= htmlspecialchars($row['prenom'] ?? '') ?></p>   
         <p><strong>Date:</strong> <?= htmlspecialchars($row['date'] ?? '') ?></p>
