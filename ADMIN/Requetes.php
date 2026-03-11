@@ -133,7 +133,7 @@ if(isset($_POST['action1'])) {
                                 <form method="POST" action="#" style="display:inline;"> 
                                     <input type="hidden" name="request_id" value="<?=htmlspecialchars($re['id_requete'] ?? '')?>"> 
                                     <button type="submit" name="action3" value="update" class="btn-update">Modifier</button>
-                                    <button type="submit" name="action4" value="delete" class="btn-delete">Supprimer</button>
+                                    <button type="submit" name="action4" value="delete" class="btn-update">Supprimer</button>
                                 </form>
                              </div> 
                             </div>
@@ -172,7 +172,7 @@ if(isset($_POST['action1'])) {
                                 <form method="POST" action="#" style="display:inline;"> 
                                     <input type="hidden" name="request_id" value="<?=htmlspecialchars($res['id_requete'] ?? '')?>"> 
                                     <button type="submit" name="action3" value="update" class="btn-update">Modifier</button>
-                                    <button type="submit" name="action4" value="delete" class="btn-delete">Supprimer</button>
+                                    <button type="submit" name="action4" value="delete" class="btn-update">Supprimer</button>
                                 </form>
                              </div> 
                             </div>
