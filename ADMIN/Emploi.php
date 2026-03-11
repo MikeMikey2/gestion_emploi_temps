@@ -50,10 +50,8 @@
         </div>
         <?php
         
-        $stm=mysqli_query($con," SELECT * FROM CRENEAU");
+        $stm=mysqli_query($con," SELECT c.*,co.code_cours FROM CRENEAU c JOIN COURS co ON c.id_cours = co.id_cours");
         $cours=$stm->fetch_all(MYSQLI_ASSOC);
-        $st = mysqli_query($con,"SELECT * FROM COURS WHERE id_cours IN (SELECT id_cours FROM CRENEAU)");
-        $cre = $st->fetch_all(MYSQLI_ASSOC);
         ?>
       <table>
             <tr>

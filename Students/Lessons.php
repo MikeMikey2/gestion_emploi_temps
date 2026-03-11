@@ -42,7 +42,7 @@ if(isset($_POST['view'])) {
             <button class="btn-primary" name="generate_pdf">Générer PDF</button>
         </form>
         <form action="#" method="POST">
-            <button class="btn-view" name="view">Voir les détails</button>
+            <button class="btn-primary" name="view">Voir les détails</button>
         </form>
     </section>
 </body>

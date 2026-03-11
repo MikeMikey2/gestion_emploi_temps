@@ -28,6 +28,15 @@ if(isset($_POST['action1'])) {
     $stmt->execute();
     header("Location: Requetes.php");
     exit();
+}elseif(isset($_POST['action4'])) {
+    $request_id =isset($_GET['request_id']) ? $_GET['request_id'] : (isset($_POST['request_id']) ? $_POST['request_id'] : null);
+    // Supprimer la requête de la base de données
+    $delete_sql = "DELETE FROM REQUETE WHERE id_requete=?";
+    $stmt = $con->prepare($delete_sql);
+    $stmt->bind_param("i", $request_id);
+    $stmt->execute();
+    header("Location: Requetes.php");
+    exit();
 }
 ?>
 <!DOCTYPE html>
@@ -104,6 +113,7 @@ if(isset($_POST['action1'])) {
                         ?>
         </div>
         </div>
+        //Si la requete est acceptée 
         <div class="tab-content" id="history-tab">
         <div class="requests-grid">
                         <?php
@@ -124,6 +134,7 @@ if(isset($_POST['action1'])) {
                                 <form method="POST" action="#" style="display:inline;"> 
                                     <input type="hidden" name="request_id" value="<?=htmlspecialchars($re['id_requete'] ?? '')?>"> 
                                     <button type="submit" name="action3" value="update" class="btn-update">Modifier</button>
+                                    <button type="submit" name="action4" value="delete" class="btn-delete">Supprimer</button>
                                 </form>
                              </div> 
                             </div>
@@ -142,7 +153,7 @@ if(isset($_POST['action1'])) {
                             echo '<p>Aucune requête acceptée.</p>';
                         }
                         ?>
-        
+                  // Si la requete est refusée
         <div class="requests-grid">
                         <?php
                         // Helper to render a single request card
@@ -162,6 +173,7 @@ if(isset($_POST['action1'])) {
                                 <form method="POST" action="#" style="display:inline;"> 
                                     <input type="hidden" name="request_id" value="<?=htmlspecialchars($res['id_requete'] ?? '')?>"> 
                                     <button type="submit" name="action3" value="update" class="btn-update">Modifier</button>
+                                    <button type="submit" name="action4" value="delete" class="btn-delete">Supprimer</button>
                                 </form>
                              </div> 
                             </div>
