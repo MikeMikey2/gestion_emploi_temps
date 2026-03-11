@@ -33,13 +33,14 @@ $result = $stmt->get_result();
         </ul>
     </nav>
     <?php foreach($result as $row) { ?>
-    <section>
-        
+    <div class="prof-container">
+        <section class="prof">
         <p><strong>Nom:</strong> <?= htmlspecialchars($row['nom'] ?? '') ?></p>
         <p><strong>Prénom:</strong> <?= htmlspecialchars($row['prenom'] ?? '') ?></p>   
         <p><strong>Date:</strong> <?= htmlspecialchars($row['date'] ?? '') ?></p>
         <p><strong>Heure dispo:</strong> <?= htmlspecialchars($row['heure']) ?? '' ?></p>
     </section>
+    </div>
     <?php
 }
 $stmt->close();
