@@ -113,7 +113,6 @@ if(isset($_POST['action1'])) {
                         ?>
         </div>
         </div>
-        //Si la requete est acceptée 
         <div class="tab-content" id="history-tab">
         <div class="requests-grid">
                         <?php
@@ -153,7 +152,7 @@ if(isset($_POST['action1'])) {
                             echo '<p>Aucune requête acceptée.</p>';
                         }
                         ?>
-                  // Si la requete est refusée
+                  
         <div class="requests-grid">
                         <?php
                         // Helper to render a single request card
