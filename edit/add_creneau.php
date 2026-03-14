@@ -76,8 +76,7 @@ if(isset($_POST['add'])) {
                 <input type="text" name="heure_fin" placeholder="Heure de fin" value="<?= htmlspecialchars($heure_fin ?? '') ?>" required>
                 <input type="text" name="salle" placeholder="Salle" value="<?= htmlspecialchars($salle ?? '') ?>" required>
                 <input type="text" name="id_cours" placeholder="ID cours" value="<?= htmlspecialchars($id_cours ?? '') ?>" required>
-                <input type="text" name="id_admin" placeholder="ID admin" value="<?= htmlspecialchars($id_admin ?? '') ?>" required>
-                <input type="text" name="code_cours" placeholder="Code cours" value="<?= htmlspecialchars($code_cours ?? '') ?>" required>
+                <input type="text" name="id_admin" placeholder="ID admin" value="<?= htmlspecialchars($id_admin ?? '') ?>" required
                 <input type="text" name="filiere" placeholder="Filière" value="<?= htmlspecialchars($filiere ?? '') ?>" required>
                 <input type="text" name="id_personne" placeholder="ID professeur" value="<?= htmlspecialchars($id_personne ?? '') ?>" required>
 
