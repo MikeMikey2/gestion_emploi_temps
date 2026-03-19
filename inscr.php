@@ -51,7 +51,7 @@ if(isset($_POST['adds'])){
                  <input type="text" name="nom" placeholder="Entrer votre nom">
                  <input type="text" name="prenom" placeholder="Entrer votre prenom">
                  <input type="text" name="email" placeholder="Entrer votre emal">
-                 <input type="password" name="mdp" placeholder="Entrer le mot de passe">
+                 <input type="text" name="mdp" placeholder="Entrer le mot de passe">
                  <input type="date" name="date_embauche" placeholder="Entrer votre date d'embauche">
                  <input type="submit" name="add" value="S'inscrire">
            </form>
@@ -62,7 +62,7 @@ if(isset($_POST['adds'])){
                 <input type="text" name="nom" placeholder="Entrer votre nom">
                  <input type="text" name="prenom" placeholder="Entrer votre prenom">
                  <input type="text" name="email" placeholder="Entrer votre emal">
-                 <input type="password" name="mdp" placeholder="Entrer le mot de passe">
+                 <input type="text" name="mdp" placeholder="Entrer le mot de passe">
                  <input type="date" name="date_entree" placeholder="Entrer votre date d'entrée">
                  <input type="text" name="filiere" placeholder="Entrer votre filiere">
                  <input type="submit" name="adds" value="S'inscrire">
