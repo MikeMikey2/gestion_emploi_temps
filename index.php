@@ -1,110 +1,19 @@
-<?php
-session_start();
-
-if(isset($_POST['acces'])){
-    include_once "ADMIN/con_dbb.php";
-    
-    if(isset($_POST['email']) && isset($_POST['mdp'])){
-        $email = $_POST['email'];
-        $mdp = $_POST['mdp'];
-        
-        // Vérification dans la table ADMIN
-        $stmt = $con->prepare("SELECT * FROM ADMIN WHERE email=? AND mot_de_passe=?");
-        $stmt->bind_param("ss", $email, $mdp);
-        $stmt->execute();
-        $req = $stmt->get_result();
-
-        if($req && $req->num_rows >= 1){
-            $_SESSION['email'] = $email;
-            $_SESSION['role'] = 'admin';
-            $_SESSION['id_personne'] = $req->fetch_assoc()['id_admin']; // Stocker l'id_admin dans la session
-            header("Location: ADMIN/tableau.php");
-            exit();
-        }
-
-        // Si pas admin, vérifier si c'est un etudiant dans PERSONNE
-        $stmt2 = $con->prepare("SELECT * FROM PERSONNE WHERE email=? AND mot_de_passe=? AND enseignant=0");
-        $stmt2->bind_param("ss", $email, $mdp);
-        $stmt2->execute();
-        $res2 = $stmt2->get_result();
-
-        if($res2 && $res2->num_rows >= 1){
-    $row2 = $res2->fetch_assoc(); // Une seule fois
-    $_SESSION['email'] = $email;
-    $_SESSION['role'] = 'etudiant';
-    $_SESSION['filiere'] = $row2['filiere'];
-    $_SESSION['id_personne'] = $row2['id_personne'];
-    header("Location: Students/Emploi.php");
-    exit();
-        }else{
-            $erreur = "Email ou mot de passe incorrect !";
-        }
-        // si pas admin,verifier si c'est un enseignant dans PERSONNE
-        $stmt2 = $con->prepare("SELECT * FROM PERSONNE WHERE email=? AND mot_de_passe=? AND enseignant=1");
-        $stmt2->bind_param("ss", $email, $mdp);
-        $stmt2->execute();
-        $res2 = $stmt2->get_result();
-
-        if($res2 && $res2->num_rows >= 1){
-            $_SESSION['email'] = $email;
-            $_SESSION['role'] = 'enseignant';
-            $_SESSION['id_personne'] = $res2->fetch_assoc()['id_personne']; // Stocker l'id_personne dans la session
-            header("Location: Teachers/Emploi.php");
-            exit();
-        }else{
-            $erreur = "Email ou mot de passe incorrect !";
-        } 
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
-    <link rel="stylesheet" href="style/connexion.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/style2.css">
 </head>
 <body>
-    <div id="myconnect">
-       <h1>CONNEXION</h1>
-         <?php 
-        if(isset($erreur)){
-            echo"<p class='Erreur'>".$erreur."</p>";
-        }
-        ?>
-       <form action="#" method="POST">
-        <input type="text" name="email" placeholder="Entrer votre email">
-        <div class="password-field">
-                    <input 
-                        type="password" 
-                        id="passwordInput"
-                        name="mdp" 
-                        placeholder="Entrer le mot de passe" 
-                        required >
-                    <button type="button" class="toggle-password" onclick="togglePassword()">
-                        <i class="fas fa-eye"></i>
-                    </button>
-                </div>
-        <input type="submit" value="Acceder" name="acces" >
-       </form>
-    </div>
-    <script>
-        function togglePassword() {
-            const passwordInput = document.getElementById('passwordInput');
-            const toggleBtn = document.querySelector('.toggle-password i');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleBtn.classList.remove('fa-eye');
-                toggleBtn.classList.add('fa-eye-slash');
-            } else {
-                passwordInput.type = 'password';
-                toggleBtn.classList.remove('fa-eye-slash');
-                toggleBtn.classList.add('fa-eye');
-            }
-        }
-    </script>
+    <section>
+        <div class="container">
+            <h1>Bienvenue sur notre application de gestion d'emploi du temps</h1>
+            <p>Veuillez vous connecter pour accéder à votre emploi du temps personnalisé.</p>
+            <a href="connect.php" class="btn">Se connecter</a>
+            <a href="inscr.php" class="btn">S'inscrire</a>
+        </div>
+    </section>
 </body>
 </html>
