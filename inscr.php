@@ -10,9 +10,8 @@ if(isset($_POST['add'])){
 
     $stmt = $conn->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe, enseignant, date_inscription) VALUES (?, ?, ?, ?, 1, ?)");
     $stmt->bind_param("sssss", $nom, $prenom, $email, $mdp, $date_embauche);
-    $stmt->execute();
-    if($stmt->affected_rows > 0){   
-        echo "Enseignant ajouté avec succès.";
+    if($stmt->execute()){   
+        $reponse_enseignant= "Enseignant ajouté avec succès.";
     } else {
         echo "Erreur: " . mysqli_error($conn);
     }
@@ -26,10 +25,9 @@ if(isset($_POST['adds'])){
     $date_entree = $_POST['date_entree'];
 
     $stmt = $conn->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe, enseignant,filiere, date_inscription) VALUES (?, ?, ?, ?, 0, ?, ?)");
-    $stmt->bind_param("sssss", $nom, $prenom, $email, $mdp, $filiere, $date_entree);
-    $stmt->execute();
-    if($stmt->affected_rows > 0){
-        echo "Etudiant ajouté avec succès.";
+    $stmt->bind_param("ssssss", $nom, $prenom, $email, $mdp, $filiere, $date_entree);
+    if($stmt->execute()){
+        $reponse_etudiant= "Etudiant ajouté avec succès.";
     } else {
         echo "Erreur: " . mysqli_error($conn);
     }
@@ -51,6 +49,9 @@ if(isset($_POST['adds'])){
         </div>
         <div class="tab-content active" id="teachers">
             <h1>Inscription d'un enseignant</h1>
+            <?php if(isset($reponse_enseignant)): ?>
+                <p><?php echo $reponse_enseignant; ?></p>
+            <?php endif; ?>
            <form action="#" method="post">
                  <input type="text" name="nom" placeholder="Entrer votre nom">
                  <input type="text" name="prenom" placeholder="Entrer votre prenom">
@@ -62,6 +63,9 @@ if(isset($_POST['adds'])){
         </div>
         <div class="tab-content" id="students">
             <h1>Inscription d'un etudiant</h1>
+            <?php if(isset($reponse_etudiant)): ?>
+                <p><?php echo $reponse_etudiant; ?></p>
+            <?php endif; ?>
             <form action="#" method="post">
                 <input type="text" name="nom" placeholder="Entrer votre nom">
                  <input type="text" name="prenom" placeholder="Entrer votre prenom">
