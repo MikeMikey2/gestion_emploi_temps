@@ -8,8 +8,10 @@ if(isset($_POST['add'])){
     $date_embauche = $_POST['date_embauche'];
     $filiere = $_POST['filiere'];
 
-    $sql = "INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe,enseignant,date_inscription) VALUES ('$nom', '$prenom', '$email', '$mdp', 1, '$date_embauche') ";
-    if(mysqli_query($conn, $sql)){
+    $stmt = $conn->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe, enseignant, date_inscription) VALUES (?, ?, ?, ?, 1, ?)");
+    $stmt->bind_param("sssss", $nom, $prenom, $email, $mdp_hash, $date_embauche);
+    $stmt->execute();
+    if($stmt->affected_rows > 0){   
         echo "Enseignant ajouté avec succès.";
     } else {
         echo "Erreur: " . mysqli_error($conn);
@@ -23,8 +25,10 @@ if(isset($_POST['adds'])){
     $filiere = $_POST['filiere'];
     $date_entree = $_POST['date_entree'];
 
-    $sql = "INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe,enseignant,filiere,date_inscription) VALUES ('$nom', '$prenom', '$email', '$mdp', 0, '$filiere', '$date_entree')";
-    if(mysqli_query($conn, $sql)){
+    $stmt = $conn->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe, enseignant,filiere, date_inscription) VALUES (?, ?, ?, ?, 0, ?, ?)");
+    $stmt->bind_param("sssss", $nom, $prenom, $email, $mdp_hash, $filiere, $date_entree);
+    $stmt->execute();
+    if($stmt->affected_rows > 0){
         echo "Etudiant ajouté avec succès.";
     } else {
         echo "Erreur: " . mysqli_error($conn);
