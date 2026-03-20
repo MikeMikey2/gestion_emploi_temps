@@ -12,12 +12,15 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    background-image: url('../icons/fond_emploi_du_temps.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 /* Conteneur principal de connexion */
@@ -220,6 +223,7 @@ input[type="password"] {
     background-position: 15px center;
     padding-left: 50px;
 }
+
 .password-field {
     position: relative;
     display: flex;
@@ -253,4 +257,104 @@ input[type="password"] {
 
 .toggle-password:active {
     transform: scale(0.95);
+}
+
+/* ============================================
+   AJOUTS POUR index.php
+   Alignement du conteneur + boutons stylisés
+   ============================================ */
+
+/* Conteneur de la page d'accueil */
+.container {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 50px 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+/* Titre h1 dans .container */
+.container h1 {
+    color: #f0f4ff;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    line-height: 1.4;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* Paragraphe dans .container */
+.container p {
+    color: rgba(220, 230, 255, 0.85);
+    font-size: 14px;
+    margin-bottom: 32px;
+    line-height: 1.6;
+}
+
+/* Formulaire dans .container */
+.container form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* Bouton Se connecter */
+.container form button[name="connected"] {
+    width: 100%;
+    padding: 14px 22px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #ffffff;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.45);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.container form button[name="connected"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px rgba(102, 126, 234, 0.6);
+}
+
+.container form button[name="connected"]:active {
+    transform: scale(0.97);
+}
+
+/* Bouton S'inscrire */
+.container form button[name="registered"] {
+    width: 100%;
+    padding: 14px 22px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #c7d2fe;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(102, 126, 234, 0.45);
+    border-radius: 12px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.container form button[name="registered"]:hover {
+    transform: translateY(-3px);
+    background: rgba(102, 126, 234, 0.18);
+    border-color: rgba(102, 126, 234, 0.7);
+    color: #e0e7ff;
+}
+
+.container form button[name="registered"]:active {
+    transform: scale(0.97);
 }

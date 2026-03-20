@@ -1,37 +1,52 @@
 <?php 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include 'ADMIN/con_dbb.php';
 if(isset($_POST['add'])){
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
     $email = $_POST['email'];
-    $mdp = $_POST['mdp'];
+    $mdp = password_hash($_POST['mdp'], PASSWORD_BCRYPT);
     $date_embauche = $_POST['date_embauche'];
-    $filiere = $_POST['filiere'];
 
-    $stmt = $conn->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe, enseignant, date_inscription) VALUES (?, ?, ?, ?, 1, ?)");
+    $stmt = $con->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe, enseignant, date_inscription) VALUES (?, ?, ?, ?, 1, ?)");
     $stmt->bind_param("sssss", $nom, $prenom, $email, $mdp, $date_embauche);
-    if($stmt->execute()){   
-        $reponse_enseignant= "Enseignant ajouté avec succès.";
-    } else {
-        echo "Erreur: " . mysqli_error($conn);
+    
+    try {
+        $stmt->execute();
+        $reponse_enseignant = "Enseignant ajouté avec succès.";
+    } catch (mysqli_sql_exception $e) {
+        if ($e->getCode() == 1062) { // Code MySQL pour doublon
+            $reponse_enseignant = " Cet email est déjà utilisé.";
+        } else {
+            $reponse_enseignant = " Erreur : " . $e->getMessage();
+        }
     }
 }
+
 if(isset($_POST['adds'])){
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
     $email = $_POST['email'];
-    $mdp = $_POST['mdp'];
+    $mdp = password_hash($_POST['mdp'], PASSWORD_BCRYPT); // ✅
     $filiere = $_POST['filiere'];
     $date_entree = $_POST['date_entree'];
 
-    $stmt = $conn->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe, enseignant,filiere, date_inscription) VALUES (?, ?, ?, ?, 0, ?, ?)");
+    $stmt = $con->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe, enseignant, filiere, date_inscription) VALUES (?, ?, ?, ?, 0, ?, ?)");
     $stmt->bind_param("ssssss", $nom, $prenom, $email, $mdp, $filiere, $date_entree);
-    if($stmt->execute()){
-        $reponse_etudiant= "Etudiant ajouté avec succès.";
-    } else {
-        echo "Erreur: " . mysqli_error($conn);
+       try {
+        $stmt->execute();
+        $reponse_etudiant = "Étudiant ajouté avec succès.";
+    } catch (mysqli_sql_exception $e) {
+        if ($e->getCode() == 1062) { // Code MySQL pour doublon
+            $reponse_etudiant = " Cet email est déjà utilisé.";
+        } else {
+            $reponse_etudiant = " Erreur : " . $e->getMessage();
+        }
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +70,7 @@ if(isset($_POST['adds'])){
            <form action="#" method="post">
                  <input type="text" name="nom" placeholder="Entrer votre nom">
                  <input type="text" name="prenom" placeholder="Entrer votre prenom">
-                 <input type="text" name="email" placeholder="Entrer votre emal">
+                 <input type="text" name="email" placeholder="Entrer votre email">
                  <input type="text" name="mdp" placeholder="Entrer le mot de passe">
                  <input type="date" name="date_embauche" placeholder="Entrer votre date d'embauche">
                  <input type="submit" name="add" value="S'inscrire">
@@ -69,7 +84,7 @@ if(isset($_POST['adds'])){
             <form action="#" method="post">
                 <input type="text" name="nom" placeholder="Entrer votre nom">
                  <input type="text" name="prenom" placeholder="Entrer votre prenom">
-                 <input type="text" name="email" placeholder="Entrer votre emal">
+                 <input type="text" name="email" placeholder="Entrer votre email">
                  <input type="text" name="mdp" placeholder="Entrer le mot de passe">
                  <input type="date" name="date_entree" placeholder="Entrer votre date d'entrée">
                  <input type="text" name="filiere" placeholder="Entrer votre filiere">
