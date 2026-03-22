@@ -29,7 +29,7 @@ if(isset($_POST['adds'])){
     $nom = $_POST['nom'];
     $prenom = $_POST['prenom'];
     $email = $_POST['email'];
-    $mdp = password_hash($_POST['mdp'], PASSWORD_BCRYPT); // ✅
+    $mdp = password_hash($_POST['mdp'], PASSWORD_BCRYPT); 
     $filiere = $_POST['filiere'];
     $date_entree = $_POST['date_entree'];
 
@@ -71,7 +71,7 @@ if(isset($_POST['adds'])){
                  <input type="text" name="nom" placeholder="Entrer votre nom">
                  <input type="text" name="prenom" placeholder="Entrer votre prenom">
                  <input type="text" name="email" placeholder="Entrer votre email">
-                 <input type="text" name="mdp" placeholder="Entrer le mot de passe">
+                 <input type="password" name="mdp" placeholder="Entrer le mot de passe">
                  <input type="date" name="date_embauche" placeholder="Entrer votre date d'embauche">
                  <input type="submit" name="add" value="S'inscrire">
            </form>
@@ -85,7 +85,7 @@ if(isset($_POST['adds'])){
                 <input type="text" name="nom" placeholder="Entrer votre nom">
                  <input type="text" name="prenom" placeholder="Entrer votre prenom">
                  <input type="text" name="email" placeholder="Entrer votre email">
-                 <input type="text" name="mdp" placeholder="Entrer le mot de passe">
+                 <input type="password" name="mdp" placeholder="Entrer le mot de passe">
                  <input type="date" name="date_entree" placeholder="Entrer votre date d'entrée">
                  <input type="text" name="filiere" placeholder="Entrer votre filiere">
                  <input type="submit" name="adds" value="S'inscrire">

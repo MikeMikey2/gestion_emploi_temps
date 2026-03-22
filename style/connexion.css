@@ -31,7 +31,6 @@ body {
     padding: 50px 40px;
     border-radius: 20px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    border: 3px solid #2563eb;
     animation: fadeIn 0.5s ease-in;
 }
 
@@ -357,4 +356,32 @@ input[type="password"] {
 
 .container form button[name="registered"]:active {
     transform: scale(0.97);
+}
+/*tab-container*/
+.tab-btn {
+    background: #ffffff;
+    border: 2px solid #667eea;
+    color: #667eea;
+    padding: 8px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.18s ease;
+    box-shadow: 0 6px 18px rgba(102,126,234,0.06);
+}
+
+.tab-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(180deg, #f7fbff 0%, #ffffff 100%);
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 12px 30px rgba(102,126,234,0.18);
+}
+.tab-btn.active:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(102,126,234,0.25);
 }
