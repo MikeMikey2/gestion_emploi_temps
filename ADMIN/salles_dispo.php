@@ -1,8 +1,12 @@
 <?php
-include_once "../ADMIN/con_dbb.php";
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+session_start();
+include_once "con_dbb.php";
 // verification des salles qui  sont disponibles
 
-$stmt = $con->prepare("SELECT * FROM SALLE WHERE disponible = 1 ORDER BY nom");
+$stmt = $con->prepare("SELECT * FROM SALLE WHERE disponible = 1");
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -34,8 +38,8 @@ $result = $stmt->get_result();
     <?php foreach($result as $row) { ?>
     <div class="prof-container">
         <section class="prof">
-        <p><strong>Nom:</strong> <?= htmlspecialchars($row['nom'] ?? '') ?></p>
-        <p><strong>Capacité:</strong> <?= htmlspecialchars($row['capacite'] ?? '') ?></p>
+        <p><strong>Nom:</strong> <?= htmlspecialchars($row['nom_salle'] ?? '') ?></p>
+        <p><strong>Capacité:</strong> <?= htmlspecialchars($row['capacité'] ?? '') ?></p>
         <p><strong>Jour:</strong> <?= htmlspecialchars($row['jour'] ?? '') ?></p>
          <p><strong>Disponibilité:</strong> <?= ($row['disponible'] == 1) ? 'Disponible' : 'Indisponible' ?></p>
          <p><strong>Heure de début:</strong> <?= htmlspecialchars($row['heure_debut'] ?? '') ?></p>
