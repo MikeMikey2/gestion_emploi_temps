@@ -49,13 +49,13 @@ function emploi_info($row) {
         <h5 class="menu">MENU</h5>
         <ul class="nav-list">
             <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF']) == 'Emploi.php') ? 'nav-active' : '' ?>">
-                <img src="../icons/evenement.png" alt="" width="30"> Emploi du temps</a></li>
+                <img src="../icons/evenement.jpeg" alt="" width="30"> Emploi du temps</a></li>
             <li><a href="Lessons.php" class="<?= (basename($_SERVER['PHP_SELF']) == 'Lessons.php') ? 'nav-active' : '' ?>">
-                <img src="../icons/prof.png" alt="" width="30"> Leçons</a></li>
+                <img src="../icons/e.png" alt="" width="30"> Leçons</a></li>
         </ul>
         <ul class="nav-footer">
             <li><a href="../logout.php">
-                <img src="../icons/back.jpeg" alt="" width="30"> Deconnexion</a></li>
+                <img src="../icons/back.png" alt="" width="30"> Deconnexion</a></li>
         </ul>
     </nav>
     <section>

@@ -16,22 +16,21 @@ if(isset($_POST['add'])) {
     $salle = $_POST['salle'] ?? '';
     $id_cours = $_POST['id_cours'] ?? '';
     $id_admin = $_POST['id_admin'] ?? '';
-    $code_cours = $_POST['code_cours'] ?? '';
     $filiere = $_POST['filiere'] ?? '';
     $id_personne = $_POST['id_personne'] ?? '';
     
     // Vérifier que les champs ne sont pas vides
-    if(empty($date) || empty($heure_debut) || empty($heure_fin) || empty($salle) || empty($id_cours) || empty($id_admin) || empty($code_cours) || empty($filiere) || empty($id_personne)) {
+    if(empty($date) || empty($heure_debut) || empty($heure_fin) || empty($salle) || empty($id_cours) || empty($id_admin) || empty($filiere) || empty($id_personne)) {
         $message = "Tous les champs sont obligatoires";
         $message_type = "error";
     } else {
         try {
-            $stmt = $conn->prepare("INSERT INTO CRENEAU(date, heure_debut, heure_fin, salle, id_cours, id_admin, code_cours, filiere, id_personne) 
-                                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            if($stmt->execute([$date, $heure_debut, $heure_fin, $salle, $id_cours, $id_admin, $code_cours, $filiere, $id_personne])) {
+            $stmt = $conn->prepare("INSERT INTO CRENEAU(date, heure_debut, heure_fin, salle, id_cours, id_admin,filiere, id_personne) 
+                                    VALUES(?, ?, ?, ?, ?, ?, ?, ?)");
+            if($stmt->execute([$date, $heure_debut, $heure_fin, $salle, $id_cours, $id_admin, $filiere, $id_personne])) {
                 $message = "Créneau ajouté avec succès";
                 $message_type = "success";
-                $date = $heure_debut = $heure_fin = $salle = $id_cours = $id_admin = $code_cours = $filiere = $id_personne = '';
+                $date = $heure_debut = $heure_fin = $salle = $id_cours = $id_admin = $filiere = $id_personne = '';
             }
         } catch(PDOException $e) {
             $message = "Erreur: " . $e->getMessage();
@@ -71,12 +70,12 @@ if(isset($_POST['add'])) {
                 </div>
             <?php endif; ?>
             <form action="" method="POST" novalidate>
-                <input type="text" name="date" placeholder="Date" value="<?= htmlspecialchars($date ?? '') ?>" required>
-                <input type="text" name="heure_debut" placeholder="Heure de début" value="<?= htmlspecialchars($heure_debut ?? '') ?>" required>
-                <input type="text" name="heure_fin" placeholder="Heure de fin" value="<?= htmlspecialchars($heure_fin ?? '') ?>" required>
+                <input type="date" name="date" placeholder="Date" value="<?= htmlspecialchars($date ?? '') ?>" required>
+                <input type="time" name="heure_debut" placeholder="Heure de début" value="<?= htmlspecialchars($heure_debut ?? '') ?>" required>
+                <input type="time" name="heure_fin" placeholder="Heure de fin" value="<?= htmlspecialchars($heure_fin ?? '') ?>" required>
                 <input type="text" name="salle" placeholder="Salle" value="<?= htmlspecialchars($salle ?? '') ?>" required>
                 <input type="text" name="id_cours" placeholder="ID cours" value="<?= htmlspecialchars($id_cours ?? '') ?>" required>
-                <input type="text" name="id_admin" placeholder="ID admin" value="<?= htmlspecialchars($id_admin ?? '') ?>" required
+                <input type="text" name="id_admin" placeholder="ID admin" value="<?= htmlspecialchars($id_admin ?? '') ?>" required>
                 <input type="text" name="filiere" placeholder="Filière" value="<?= htmlspecialchars($filiere ?? '') ?>" required>
                 <input type="text" name="id_personne" placeholder="ID professeur" value="<?= htmlspecialchars($id_personne ?? '') ?>" required>
 

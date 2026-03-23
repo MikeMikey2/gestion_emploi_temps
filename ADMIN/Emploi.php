@@ -17,7 +17,7 @@
          <ul class="nav-list">
             <li><a href="tableau.php" class="<?= (basename($_SERVER['PHP_SELF'])=='tableau.php') ? 'nav-active' : '' ?>"><img src="../icons/table.png" alt="20" width="30">Tableau de bord</a></li>
             <li><a href="Gestion.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Gestion.php') ? 'nav-active' : '' ?>"><img src="../icons/gest.png" alt="20" width="30">Gestion</a></li>
-            <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Emploi.php') ? 'nav-active' : '' ?>"><img src="../icons/evenement.png" alt="20" width="30">Emploi du temps</a></li>
+            <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Emploi.php') ? 'nav-active' : '' ?>"><img src="../icons/evenement.jpeg" alt="20" width="30">Emploi du temps</a></li>
             <li><a href="Requetes.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Requetes.php') ? 'nav-active' : '' ?>"><img src="../icons/request.png" alt="20" width="30">Requetes<span class="badge"><?php echo mysqli_num_rows(mysqli_query($con, "SELECT * FROM REQUETE WHERE statut='en_attente'")); ?></span></a></li>
             <li><a href="profdispo.php" class="<?= (basename($_SERVER['PHP_SELF'])=='profdispo.php') ? 'nav-active' : '' ?>"><img src="../icons/dispo.png" alt="20" width="30">Enseignants disponibles</a></li>
             <li><a href="salles_dispo.php" class="<?= (basename($_SERVER['PHP_SELF'])=='salles_dispo.php') ? 'nav-active' : '' ?>"><img src="../icons/sall.jpeg" alt="20" width="30">Salles disponibles</a></li>
@@ -62,6 +62,7 @@
             <th>Classe</th>
             <th>Salle</th>
             <th>Heure_fin</th>
+            <th>Id_prof</th>
             <th>Action</th>
         </tr>  
         <?php foreach($cours as $cour): ?>
@@ -72,6 +73,7 @@
             <td><?=htmlspecialchars($cour['filiere']) ?></td>
             <td ><?=htmlspecialchars($cour['salle']) ?></td>
             <td><?=htmlspecialchars($cour['heure_fin']) ?></td>
+            <td><?= htmlspecialchars($cour['id_personne']) ?></td>
             <td><a href="../edit/edit_creneau.php?id=<?= $cour['id_creneau'] ?>"><img src="../icons/modify.jpeg" width="30"></a> 
                 <a href="../edit/delete_creneau.php?id=<?= $cour['id_creneau'] ?>" onclick="return confirm('Êtes-vous sûr?')"><img src="../icons/delete.png"width="30"></a>
             </td>

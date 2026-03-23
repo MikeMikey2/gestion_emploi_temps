@@ -31,7 +31,7 @@ if(isset($_POST['acces'])){
         if($res2 && $res2->num_rows >= 1){
             $row = $res2->fetch_assoc();
 
-            // ✅ Vérification du mot de passe hashé
+            //  Vérification du mot de passe hashé
             if(password_verify($mdp, $row['mot_de_passe'])){
 
                 $_SESSION['email'] = $email;
