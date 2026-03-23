@@ -37,9 +37,6 @@ include_once "con_dbb.php";
                     <div class="liste">
                         <h1>Liste des Enseignants</h1>
                         <p>liste de tous les enseignants enregistres dans la base de donnees.</p>
-                        <form action="../edit/add_prof.php" method="POST">
-                            <input type="submit" value="Ajouter" ">
-                        </form>
                         <?php 
                         $stm=mysqli_query($con," SELECT * FROM PERSONNE WHERE enseignant=1");
                         $prof=$stm->fetch_all(MYSQLI_ASSOC);
@@ -80,9 +77,6 @@ include_once "con_dbb.php";
                     <div class="liste">
                         <h1>Liste des Étudiants</h1>
                         <p>Liste de tous les étudiants enregistrés dans la base de données.</p>
-                        <form action="../edit/inscr.php" method="POST">
-                            <input type="submit" value="Ajouter" >
-                        </form>
                     </div>
                     <div class="rech">
                         <input type="text" class="search" placeholder="Entrer le nom ">
