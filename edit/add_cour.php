@@ -1,6 +1,6 @@
 <?php
 try {
-    $conn = new PDO("mysql:host=localhost;dbname=emploi", "phpmyadmin", "mbele2.0");
+    $conn = new PDO("mysql:host=localhost;dbname=emploi", "phpmyadmin", "izJe23MwGlzo");
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch(PDOException $e) {
     die("Erreur de connexion: " . $e->getMessage());
