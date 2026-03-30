@@ -74,7 +74,7 @@
             <td ><?=htmlspecialchars($cour['salle']) ?></td>
             <td><?=htmlspecialchars($cour['heure_fin']) ?></td>
             <td><?= htmlspecialchars($cour['id_personne']) ?></td>
-            <td><a href="../edit/edit_creneau.php?id=<?= $cour['id_creneau'] ?>"><img src="../icons/modify.jpeg" width="30"></a> 
+            <td><a href="../edit/edit_creneau.php?id=<?= $cour['id_creneau'] ?>"><img src="../icons/change.png" width="30"></a> 
                 <a href="../edit/delete_creneau.php?id=<?= $cour['id_creneau'] ?>" onclick="return confirm('Êtes-vous sûr?')"><img src="../icons/delete.png"width="30"></a>
             </td>
         </tr>   
@@ -152,7 +152,7 @@
                 if (visibleCount === 0) {
                     msg.textContent = `❌ Aucun résultat pour "${query}"`;
                     msg.style.color = '#f56565';
-                } else if (visibleCount === 1) {
+             } else if (visibleCount === 1) {
                     msg.textContent = `✓ 1 résultat trouvé`;
                     msg.style.color = '#48bb78';
                 } else {

@@ -76,7 +76,7 @@ if(isset($_POST['action1'])) {
         <div class="tab-content" id="waiting-tab">
         <div class="requests-grid">
                         <?php
-                        // Helper to render a single request card
+                        
                         function render_request_card($r){
                             ?>
                             <div class="request-card pending">
@@ -109,7 +109,7 @@ if(isset($_POST['action1'])) {
                                 render_request_card($r);
                             }
                         } else {
-                            echo '<p>Aucune requête acceptée.</p>';
+                            echo '<p>Aucune requête en attente.</p>';
                         }
                         ?>
         </div>
