@@ -55,8 +55,7 @@ $badge = $stmt_badge->get_result()->fetch_assoc()['total'];
                 <div class="row">
                         <div class="form-group col-1">
                                 <label for="code_cours">Matière / Code du cours</label>
-                                <input list="cours_list"  name="id_cours" class="form-control" placeholder="Entrer le code du cours" maxlength="40" aria-describedby="code_help" required>
-                                <datalist id="cours_list">
+                                <select id="cours_list" name="id_cours">
                                         <option value="1">MATH301</option>
                                         <option value="2">PHY402</option>
                                         <option value="3">INFO201</option>
