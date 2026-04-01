@@ -78,17 +78,17 @@ section {
     padding: 1rem 1rem 3rem;
 }
 
-/* ─── Carte centrale ─── */
-.container {
-    background: rgba(255, 255, 255, 0.97);
-    border-radius: 20px;
-    padding: 44px 40px;
-    max-width: 420px;
-    width: 100%;
+/* ─── Section d'accueil ─── */
+.hero {
+    width: min(92vw, 920px);
+    margin: 1.4rem auto 2rem;
+    padding: 1rem;
     text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    box-shadow: var(--shadow);
-    animation: fadeUp 0.5s 0.2s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.hero h2,
+.hero p {
+    color: var(--white);
 }
 
 /* Icône calendrier stylisée */
@@ -179,7 +179,127 @@ section {
     transform: scale(0.98);
 }
 
-/* ─── Responsive ─── */
+.intro {
+    color: #e2e8f0;
+    max-width: 640px;
+    margin: 0 auto 1.3rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: center;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 220px;
+    z-index: 20;
+    background: linear-gradient(180deg, rgba(15, 30, 80, 0.95), rgba(18, 39, 104, 0.95));
+    border-right: 1px solid rgba(255, 255, 255, 0.16);
+    padding: 1.4rem 1rem;
+    backdrop-filter: blur(8px);
+}
+
+.side-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.side-menu a {
+    display: block;
+    color: #ebf2ff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.65rem 0.85rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.07);
+    transition: background var(--transition), transform var(--transition);
+}
+
+.side-menu a:hover {
+    background: rgba(255, 255, 255, 0.18);
+    transform: translateX(2px);
+}
+
+.btn-action {
+    border: 1px solid rgba(255,255,255,0.45);
+}
+
+main {
+    margin-left: 240px;
+    padding: 2.4rem 1.2rem 2.4rem 1.2rem;
+}
+
+@media (max-width: 900px) {
+    nav {
+        position: static;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        padding: 0.8rem;
+    }
+
+    .side-menu ul {
+        flex-direction: row;
+        justify-content: center;
+        gap: 0.6rem;
+    }
+
+    main {
+        margin-left: 0;
+        padding: 1.2rem;
+    }
+}
+
+.cta-links {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 170px;
+    border-radius: 12px;
+    border: none;
+    padding: 0.85rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+}
+
+.cta-button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.05);
+}
+
+.cta-button-outline {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+}
+@media (max-width: 480px) {
+    .Gtitre {
+        font-size: 1.18rem;
+        padding: 1.5rem 1.2rem 0.85rem;
+    }
+    .container {
+        padding: 32px 20px;
+        border-radius: 16px;
+    }
+}
+
 @media (max-width: 480px) {
     .Gtitre {
         font-size: 1.18rem;

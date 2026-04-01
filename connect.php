@@ -3,9 +3,8 @@ session_start();
 
 // Redirection si déjà connecté
 if (isset($_SESSION['role'])) {
-    if ($_SESSION['role'] === 'admin') { header("Location: ADMIN/tableau.php"); exit(); }
-    if ($_SESSION['role'] === 'enseignant') { header("Location: Teachers/Emploi.php"); exit(); }
-    if ($_SESSION['role'] === 'etudiant') { header("Location: Students/Emploi.php"); exit(); }
+    header("Location: index.php");
+    exit();
 }
 
 if(isset($_POST['acces'])){
@@ -25,7 +24,7 @@ if(isset($_POST['acces'])){
                 $_SESSION['email'] = $email;
                 $_SESSION['role'] = 'admin';
                 $_SESSION['id_personne'] = $admin['id_admin'];
-                header("Location: ADMIN/tableau.php");
+                header("Location: index.php");
                 exit();
             }
         }
@@ -46,11 +45,11 @@ if(isset($_POST['acces'])){
                 if($row['enseignant'] == 0){
                     $_SESSION['role'] = 'etudiant';
                     $_SESSION['filiere'] = $row['filiere'];
-                    header("Location: Students/Emploi.php");
+                    header("Location: index.php");
                     exit();
                 } else {
                     $_SESSION['role'] = 'enseignant';
-                    header("Location: Teachers/Emploi.php");
+                    header("Location: index.php");
                     exit();
                 }
 
