@@ -1,127 +1,197 @@
-/* connexion.css */
+/* ============================================
+   CSS — INDEX.PHP (Page d'accueil)
+   Thème : Bleu & Blanc · Mobile-First
+   ============================================ */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --accent: #667eea;
+    --accent2: #764ba2;
+    --primary: #1a56c4;
+    --white: #ffffff;
+    --text-dark: #1e293b;
+    --text-mid: #475569;
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --shadow: 0 20px 50px rgba(0, 0, 0, 0.22);
 }
 
 body {
-  min-height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #0d3b7a;
-  background-image: url("../icons/fond_emploi_du_temps.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    background-color: #0d3b7a;
+    background-image: url("../icons/fond_emploi_du_temps.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
 }
 
 body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: rgba(8, 30, 70, 0.62);
-  z-index: 0;
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 25, 65, 0.6);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: 0;
 }
 
+/* ─── Titre principal ─── */
 .Gtitre {
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  color: #ffffff;
-  font-size: 1.5rem;
-  font-weight: 700;
-  padding: 2rem 2rem 1rem;
-  text-shadow: 0 2px 8px rgba(0, 0, 50, 0.5);
-  max-width: 650px;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: var(--white);
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 2rem 2rem 1.2rem;
+    text-shadow: 0 2px 12px rgba(0, 0, 50, 0.6);
+    max-width: 650px;
+    letter-spacing: 0.2px;
+    line-height: 1.4;
+    animation: fadeUp 0.5s 0.1s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 section {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 1rem 1rem 3rem;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 1rem 1rem 3rem;
 }
 
+/* ─── Carte centrale ─── */
 .container {
-  background: rgba(255, 255, 255, 0.96);
-  border-radius: 16px;
-  padding: 2.5rem 3rem;
-  max-width: 420px;
-  width: 100%;
-  text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 20px;
+    padding: 44px 40px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.5s 0.2s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
-/* Icône calendrier */
-.container::before {
-  content: '';
-  display: block;
-  width: 44px;
-  height: 44px;
-  background: #1a56c4;
-  border-radius: 10px;
-  margin: 0 auto 1.2rem;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='3'/%3E%3Cline x1='3' y1='9' x2='21' y2='9'/%3E%3Cline x1='8' y1='2' x2='8' y2='6'/%3E%3Cline x1='16' y1='2' x2='16' y2='6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 22px;
+/* Icône calendrier stylisée */
+.container-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    border-radius: 14px;
+    margin: 0 auto 1.4rem;
+    box-shadow: 0 8px 20px rgba(26, 86, 196, 0.3);
+    color: white;
 }
 
 .container p {
-  color: #1a3a6e;
-  font-size: 0.92rem;
-  line-height: 1.65;
-  margin-bottom: 1.8rem;
+    color: var(--text-mid);
+    font-size: 0.92rem;
+    line-height: 1.65;
+    margin-bottom: 2rem;
 }
 
 .container form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.container button {
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 2px solid transparent;
-}
-
+/* ─── Bouton principal (Se connecter) ─── */
 .container button[name="connected"] {
-  background-color: #1a56c4;
-  color: #ffffff;
-  border-color: #1a56c4;
+    width: 100%;
+    padding: 14px 22px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    letter-spacing: 0.4px;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .container button[name="connected"]:hover {
-  background-color: #1445a8;
-  border-color: #1445a8;
-  transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 36px rgba(102, 126, 234, 0.55);
+    filter: brightness(1.06);
 }
 
+.container button[name="connected"]:active {
+    transform: scale(0.98);
+}
+
+/* ─── Bouton secondaire (S'inscrire) ─── */
 .container button[name="registered"] {
-  background-color: transparent;
-  color: #1a56c4;
-  border-color: #1a56c4;
+    width: 100%;
+    padding: 14px 22px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--accent);
+    background: transparent;
+    border: 2px solid rgba(102, 126, 234, 0.35);
+    border-radius: 12px;
+    cursor: pointer;
+    letter-spacing: 0.4px;
+    transition: transform var(--transition), background var(--transition), border-color var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .container button[name="registered"]:hover {
-  background-color: #e8f0fe;
-  transform: translateY(-1px);
+    transform: translateY(-2px);
+    background: rgba(102, 126, 234, 0.07);
+    border-color: var(--accent);
 }
 
+.container button[name="registered"]:active {
+    transform: scale(0.98);
+}
+
+/* ─── Responsive ─── */
 @media (max-width: 480px) {
-  .Gtitre { font-size: 1.15rem; padding: 1.5rem 1rem 0.75rem; }
-  .container { padding: 2rem 1.5rem; margin: 0 1rem; }
+    .Gtitre {
+        font-size: 1.18rem;
+        padding: 1.5rem 1.2rem 0.85rem;
+    }
+    .container {
+        padding: 32px 20px;
+        border-radius: 16px;
+    }
+}
+
+@media (max-width: 360px) {
+    .Gtitre { font-size: 1rem; }
+    .container { padding: 26px 16px; }
 }

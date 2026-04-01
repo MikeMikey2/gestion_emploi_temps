@@ -3,37 +3,42 @@ session_start();
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'enseignant') { header("Location: ../index.php"); exit; }
 include_once "../ADMIN/con_dbb.php";
+include_once "../icons/icons.php";
 $id = (int)$_SESSION['id_personne'];
 if(isset($_POST['btn'])){
     header("Location: rediger.php");
     exit();
 }
 
-// Remplace la ligne du badge par ceci :
-$stmt_badge = $con->prepare("SELECT COUNT(*) as total FROM REQUETE WHERE (statut='acceptée' OR statut='refusée') AND id_personne = ?");
+$stmt_badge = $con->prepare("SELECT COUNT(*) as total FROM REQUETE WHERE (statut='acceptee' OR statut='refusee') AND id_personne = ?");
 $stmt_badge->bind_param("i", $id);
 $stmt_badge->execute();
 $badge = $stmt_badge->get_result()->fetch_assoc()['total'];
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appli</title>
+    <title>Mon emploi du temps</title>
     <link rel="stylesheet" href="../style/style2.css">
 </head>
 <body>
     <div class="Gtitre"><b>GESTION DE L'EMPLOI DU TEMPS</b></div>
-      <nav>
-     <h5 class="menu">MENU</h5>
-         <ul class="nav-list">
-            <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Emploi.php') ? 'nav-active' : '' ?>"><img src="../icons/evenement.jpeg" alt="20" width="30"> Emploi du temps</a></li>
-            <li><a href="Requetes.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Requetes.php') ? 'nav-active' : '' ?>"><img src="../icons/request.png" alt="20" width="30">Requetes <span class="badge"><?php echo $badge; ?></span></a></li>
-            <li><a href="Leçons.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Leçons.php') ? 'nav-active' : '' ?>"><img src="../icons/e.png" alt="20" width="30">Leçons</a></li>
+    <nav>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+            <svg class="hamburger" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            <span>MENU</span>
+        </button>
+        <h5 class="menu"><?= svg_icon('menu', 14) ?> MENU</h5>
+        <ul class="nav-list" id="navList">
+            <li><a href="Emploi.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Emploi.php') ? 'nav-active' : '' ?>"><?= svg_icon('emploi', 20) ?> Emploi du temps</a></li>
+            <li><a href="Requetes.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Requetes.php') ? 'nav-active' : '' ?>"><?= svg_icon('requetes', 20) ?>Requêtes <span class="badge"><?php echo $badge; ?></span></a></li>
+            <li><a href="Leçons.php" class="<?= (basename($_SERVER['PHP_SELF'])=='Leçons.php') ? 'nav-active' : '' ?>"><?= svg_icon('lesson', 20) ?>Leçons</a></li>
         </ul>
-        <ul class="nav-footer">
-            <li><a href="../logout.php" class="<?= (basename($_SERVER['PHP_SELF'])=='../logout.php') ? 'nav-active' :'' ?>"><img src="../icons/back.png" alt="20" width="30">Deconnexion</a></li>
+        <ul class="nav-footer" id="navFooter">
+            <li><a href="../logout.php"><?= svg_icon('logout', 20) ?>Déconnexion</a></li>
         </ul>
     </nav>
     <section>
@@ -42,10 +47,8 @@ $badge = $stmt_badge->get_result()->fetch_assoc()['total'];
                 <div class="section-header">
                     <h1>Mon emploi du temps</h1>
                     <form action="#" method="POST">
-                        <button class=" btn-primary" name="btn" id="newRequestBtn">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <path d="M10 4v12m-6-6h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                        </svg>
+                        <button class="btn-primary" name="btn" id="newRequestBtn">
+                        <?= svg_icon('add', 20) ?>
                         <span>Nouvelle requête</span>
                     </button>
                     </form>
@@ -67,7 +70,7 @@ $badge = $stmt_badge->get_result()->fetch_assoc()['total'];
                                     <h4><?= htmlspecialchars($row['code_cours']??'') ?></h4>
                                     <p><?= htmlspecialchars($row['description']??'') ?></p>
                                     <div class="slot-meta">
-                                        <span>📍 Salle <?= htmlspecialchars($row['salle']??'') ?></span>
+                                        <span><?= svg_icon('salles', 14) ?> Salle <?= htmlspecialchars($row['salle']??'') ?></span>
                                         <span><?=htmlspecialchars($row['filiere'])?></span>
                                     </div>
                                 </div>
@@ -95,6 +98,26 @@ $badge = $stmt_badge->get_result()->fetch_assoc()['total'];
         </div>
 
     </section>
-        
+
+    <script>
+    const navToggle = document.getElementById('navToggle');
+    const navList   = document.getElementById('navList');
+    const navFooter = document.getElementById('navFooter');
+
+    navToggle.addEventListener('click', function () {
+        const isOpen = navList.classList.contains('open');
+        navList.classList.toggle('open', !isOpen);
+        navFooter.classList.toggle('open', !isOpen);
+        navToggle.classList.toggle('open', !isOpen);
+    });
+
+    navList.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            navList.classList.remove('open');
+            navFooter.classList.remove('open');
+            navToggle.classList.remove('open');
+        });
+    });
+    </script>
 </body>
 </html>

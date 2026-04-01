@@ -22,9 +22,15 @@ if (!$etudiant || !$etudiant['filiere']) {
 
 $filiere = $etudiant['filiere'];
 
-// Récupérer les leçons de la filière de l'étudiant (créées par des enseignants)
-$stmt = $con->prepare("SELECT l.* FROM LEÇON l JOIN PERSONNE p ON l.id_personne = p.id_personne WHERE l.filiere = ? AND p.enseignant = 1 ORDER BY l.id_leçon DESC LIMIT 1");
-$stmt->bind_param("s", $filiere);
+$id_lecon = isset($_POST['id_lecon']) ? (int)$_POST['id_lecon'] : 0;
+
+if ($id_lecon === 0) {
+    die("Aucune leçon spécifiée.");
+}
+
+// Récupérer la leçon exacte
+$stmt = $con->prepare("SELECT l.*, c.code_cours FROM LEÇON l LEFT JOIN COURS c ON l.id_cours = c.id_cours WHERE l.id_leçon = ? AND l.filiere = ?");
+$stmt->bind_param("is", $id_lecon, $filiere);
 $stmt->execute();
 $res = $stmt->get_result();
 ?>
@@ -33,24 +39,27 @@ $res = $stmt->get_result();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mes Leçons</title>
-    <link rel="stylesheet" href="../style/style2.css">
+    <title>Leçon - PDF</title>
+    <style>
+        body { font-family: 'Helvetica', 'Arial', sans-serif; padding: 20px; color: #333; }
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #2563eb; padding-bottom: 15px; }
+        .header h1 { color: #1e40af; font-size: 24px; margin: 0 0 10px 0; }
+        .meta { font-size: 14px; color: #555; margin-bottom: 5px; }
+        .content { margin-top: 30px; font-size: 15px; line-height: 1.6; white-space: pre-wrap; }
+    </style>
 </head>
 <body>
-<div class="Gtitre"><b>COURS</b></div>
-<section>
 <?php if ($res->num_rows === 0): ?>
-    <p>Aucune leçon disponible pour votre filière.</p>
+    <p>Leçon introuvable ou vous n'y avez pas accès.</p>
 <?php else: ?>
     <?php while($row = $res->fetch_assoc()): ?>
-        <div class="pdf-content">
-            <h2>Leçon <?= htmlspecialchars($row['id_leçon']) ?> : <?= htmlspecialchars($row['titre']) ?></h2>
-            <p><strong>Code du cours :</strong> <?= htmlspecialchars($row['id_cours']) ?></p>
-            <p><strong>Filière :</strong> <?= htmlspecialchars($row['filiere']) ?></p>
-            <hr>
-            <div class="lesson-body">
-                <?= htmlspecialchars($row['corps']) ?>
-            </div>
+        <div class="header">
+            <h1><?= htmlspecialchars($row['titre']) ?></h1>
+            <div class="meta"><strong>Cours :</strong> <?= htmlspecialchars($row['code_cours']) ?></div>
+            <div class="meta"><strong>Filière :</strong> <?= htmlspecialchars($row['filiere']) ?></div>
+        </div>
+        <div class="content">
+<?= htmlspecialchars($row['corps']) ?>
         </div>
     <?php endwhile; ?>
 <?php endif; ?>

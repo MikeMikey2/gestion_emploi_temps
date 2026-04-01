@@ -8,19 +8,18 @@ if(isset($_POST['add'])){
     $prenom = $_POST['prenom'];
     $email = $_POST['email'];
     $mdp = password_hash($_POST['mdp'], PASSWORD_BCRYPT);
-    $date_embauche = $_POST['date_embauche'];
 
-    $stmt = $con->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe, enseignant, date_inscription) VALUES (?, ?, ?, ?, 1, ?)");
-    $stmt->bind_param("sssss", $nom, $prenom, $email, $mdp, $date_embauche);
+    $stmt = $con->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe, enseignant) VALUES (?, ?, ?, ?, 1)");
+    $stmt->bind_param("ssss", $nom, $prenom, $email, $mdp);
     
     try {
         $stmt->execute();
-        $reponse_enseignant = "Enseignant ajouté avec succès.";
+        $reponse_enseignant = ["type" => "success", "text" => "Enseignant ajouté avec succès."];
     } catch (mysqli_sql_exception $e) {
-        if ($e->getCode() == 1062) { // Code MySQL pour doublon
-            $reponse_enseignant = " Cet email est déjà utilisé.";
+        if ($e->getCode() == 1062) {
+            $reponse_enseignant = ["type" => "error", "text" => "Cet email est déjà utilisé."];
         } else {
-            $reponse_enseignant = " Erreur : " . $e->getMessage();
+            $reponse_enseignant = ["type" => "error", "text" => "Erreur : " . $e->getMessage()];
         }
     }
 }
@@ -31,33 +30,36 @@ if(isset($_POST['adds'])){
     $email = $_POST['email'];
     $mdp = password_hash($_POST['mdp'], PASSWORD_BCRYPT); 
     $filiere = $_POST['filiere'];
-    $date_entree = $_POST['date_entree'];
 
-    $stmt = $con->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe, enseignant, filiere, date_inscription) VALUES (?, ?, ?, ?, 0, ?, ?)");
-    $stmt->bind_param("ssssss", $nom, $prenom, $email, $mdp, $filiere, $date_entree);
-       try {
+    $stmt = $con->prepare("INSERT INTO PERSONNE(nom, prenom, email, mot_de_passe, enseignant, filiere) VALUES (?, ?, ?, ?, 0, ?)");
+    $stmt->bind_param("sssss", $nom, $prenom, $email, $mdp, $filiere);
+    try {
         $stmt->execute();
-        $reponse_etudiant = "Étudiant ajouté avec succès.";
+        $reponse_etudiant = ["type" => "success", "text" => "Étudiant ajouté avec succès."];
     } catch (mysqli_sql_exception $e) {
-        if ($e->getCode() == 1062) { // Code MySQL pour doublon
-            $reponse_etudiant = " Cet email est déjà utilisé.";
+        if ($e->getCode() == 1062) {
+            $reponse_etudiant = ["type" => "error", "text" => "Cet email est déjà utilisé."];
         } else {
-            $reponse_etudiant = " Erreur : " . $e->getMessage();
+            $reponse_etudiant = ["type" => "error", "text" => "Erreur : " . $e->getMessage()];
         }
     }
 }
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Inscription</title>
     <link rel="stylesheet" href="style/connexion.css">
 </head>
 <body>
-    <section>
+    <section class="inscr-section">
+        <a href="index.php" class="back-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Retour à l'accueil
+        </a>
         <div class="manage-tabs">
             <button class="tab-btn active" data-tab="teachers">Enseignants</button>
             <button class="tab-btn" data-tab="students">Étudiants</button>
@@ -65,82 +67,104 @@ if(isset($_POST['adds'])){
         <div class="tab-content active" id="teachers">
             <h1>Inscription d'un enseignant</h1>
             <?php if(isset($reponse_enseignant)): ?>
-                <p><?php echo $reponse_enseignant; ?></p>
+                <div class="msg <?= $reponse_enseignant['type'] === 'success' ? 'msg-success' : 'msg-error' ?>">
+                    <?php if($reponse_enseignant['type'] === 'success'): ?>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <?php else: ?>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <?php endif; ?>
+                    <span><?= htmlspecialchars($reponse_enseignant['text']) ?></span>
+                </div>
             <?php endif; ?>
            <form action="#" method="post">
-                 <input type="text" name="nom" placeholder="Entrer votre nom">
-                 <input type="text" name="prenom" placeholder="Entrer votre prenom">
-                 <input type="text" name="email" placeholder="Entrer votre email">
-                 <input type="password" name="mdp" placeholder="Entrer le mot de passe">
-                 <input type="date" name="date_embauche" placeholder="Entrer votre date d'embauche">
-                 <input type="submit" name="add" value="S'inscrire">
+                <input type="text" name="nom" placeholder="Entrer votre nom" required>
+                <input type="text" name="prenom" placeholder="Entrer votre prénom" required>
+                <input type="text" name="email" placeholder="Entrer votre email" required>
+                <input type="password" name="mdp" placeholder="Entrer le mot de passe" required>
+                <input type="submit" name="add" value="S'inscrire">
            </form>
         </div>
         <div class="tab-content" id="students">
-            <h1>Inscription d'un etudiant</h1>
+            <h1>Inscription d'un étudiant</h1>
             <?php if(isset($reponse_etudiant)): ?>
-                <p><?php echo $reponse_etudiant; ?></p>
+                <div class="msg <?= $reponse_etudiant['type'] === 'success' ? 'msg-success' : 'msg-error' ?>">
+                    <?php if($reponse_etudiant['type'] === 'success'): ?>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    <?php else: ?>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <?php endif; ?>
+                    <span><?= htmlspecialchars($reponse_etudiant['text']) ?></span>
+                </div>
             <?php endif; ?>
             <form action="#" method="post">
-                <input type="text" name="nom" placeholder="Entrer votre nom">
-                 <input type="text" name="prenom" placeholder="Entrer votre prenom">
-                 <input type="text" name="email" placeholder="Entrer votre email">
-                 <input type="password" name="mdp" placeholder="Entrer le mot de passe">
-                 <input type="date" name="date_entree" placeholder="Entrer votre date d'entrée">
-                 <input type="text" name="filiere" placeholder="Entrer votre filiere">
-                 <input type="submit" name="adds" value="S'inscrire">
+                <input type="text" name="nom" placeholder="Entrer votre nom" required>
+                <input type="text" name="prenom" placeholder="Entrer votre prénom" required>
+                <input type="text" name="email" placeholder="Entrer votre email" required>
+                <input type="password" name="mdp" placeholder="Entrer le mot de passe" required>
+                <select name="filiere" required>
+                                <option value="IGL1">IGL1</option>
+                                <option value="IGL2">IGL2</option>
+                                <option value="BAT1">BAT1</option>
+                                <option value="BAT2">BAT2</option>
+                                <option value="ELT1">ELT1</option>
+                                <option value="ELT2">ELT2</option>
+                                <option value="FCL1">FCL1</option>
+                                <option value="FCL2">FCL2</option>
+                                <option value="GTO1">GTO1</option>
+                                <option value="GTO2">GTO2</option>
+                                <option value="IIA1">IIA1</option>
+                                <option value="IIA2">IIA2</option>
+                                <option value="IWD1">IWD1</option>
+                                <option value="IWD2">IWD2</option>
+                                <option value="MAB1">MAB1</option>
+                                <option value="MAB2">MAB2</option>
+                                <option value="MAVA1">MAVA1</option>
+                                <option value="MAVA2">MAVA2</option>
+                                <option value="RES1">RES1</option>
+                                <option value="RES2">RES2</option>
+                                <option value="2ndeC">2ndeC</option>
+                                <option value="1ereC">1ereC</option>
+                                <option value="TC">TC</option>
+                                <option value="TEL1">TEL1</option>
+                                <option value="TEL2">TEL2</option>
+                </select>
+                <input type="submit" name="adds" value="S'inscrire">
             </form>
         </div>
         <script>
-            // Gestion des onglets pour afficher les données filtrées
-        document.addEventListener('DOMContentLoaded', function() {
-            // Masquer tous les onglets sauf le premier au chargement
-            const allTabContents = document.querySelectorAll('.tab-content');
-            allTabContents.forEach((content, logout) => {
-                if (logout === 0) {
-                    content.classList.add('active');
-                    content.style.display = 'block';
-                } else {
-                    content.classList.remove('active');
-                    content.style.display = 'none';
-                }
-            });
-            
-            // Récupérer tous les boutons d'onglet
-            const tabButtons = document.querySelectorAll('.tab-btn');
-            
-            // Ajouter un événement click à chaque bouton
-            tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Récupérer l'attribut data-tab du bouton cliqué
-                    const tabName = this.getAttribute('data-tab');
-                    
-                    // Afficher uniquement le contenu sélectionné
-                    showTab(tabName);
-                    
-                    // Mettre à jour le style du bouton actif
-                    tabButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
+            // Onglet actif après soumission
+            const activeTab = '<?= isset($reponse_etudiant) ? "students" : "teachers" ?>';
+
+            document.addEventListener('DOMContentLoaded', function() {
+                // Initialise tous les onglets cachés
+                document.querySelectorAll('.tab-content').forEach(c => {
+                    c.classList.remove('active');
+                    c.style.display = 'none';
+                });
+                // Active le bon onglet selon la soumission
+                showTab(activeTab);
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    if (btn.getAttribute('data-tab') === activeTab) {
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('active');
+                    }
+                    btn.addEventListener('click', function() {
+                        showTab(this.getAttribute('data-tab'));
+                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                    });
                 });
             });
-        });
 
-        // Fonction pour afficher l'onglet sélectionné
-        function showTab(tabName) {
-            // Masquer tous les onglets
-            const allTabContents = document.querySelectorAll('.tab-content');
-            allTabContents.forEach(content => {
-                content.classList.remove('active');
-                content.style.display = 'none';
-            });
-            
-            // Afficher l'onglet sélectionné
-            const selectedTab = document.getElementById(tabName);
-            if (selectedTab) {
-                selectedTab.classList.add('active');
-                selectedTab.style.display = 'block';
+            function showTab(tabName) {
+                document.querySelectorAll('.tab-content').forEach(c => {
+                    c.classList.remove('active');
+                    c.style.display = 'none';
+                });
+                const tab = document.getElementById(tabName);
+                if (tab) { tab.classList.add('active'); tab.style.display = 'block'; }
             }
-        }
         </script>
     </section>
 </body>

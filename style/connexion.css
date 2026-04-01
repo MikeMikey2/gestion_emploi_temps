@@ -1,228 +1,254 @@
 /* ============================================
-   CSS - PAGE DE CONNEXION
-   Thème : Bleu et Blanc
+   CSS — PAGES CONNEXION & INSCRIPTION
+   Thème : Bleu & Blanc · Design Professionnel
    ============================================ */
 
-/* Réinitialisation et configuration de base */
-* {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --primary-light: #3b82f6;
+    --accent: #667eea;
+    --accent2: #764ba2;
+    --error: #dc2626;
+    --error-bg: #fef2f2;
+    --success: #059669;
+    --success-bg: #ecfdf5;
+    --text-dark: #1e293b;
+    --text-mid: #475569;
+    --text-light: #94a3b8;
+    --border: #bfdbfe;
+    --bg-input: #f8fafc;
+    --white: #ffffff;
+    --radius: 12px;
+    --shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
-    background-image: url('../icons/fond_emploi_du_temps.png');
+    padding: 32px 20px;
+    background: linear-gradient(135deg, #0a1850 0%, #1a3a8f 50%, #0d2b6b 100%);
+    background-image: 
+        linear-gradient(135deg, rgba(10, 24, 80, 0.85) 0%, rgba(26, 58, 143, 0.85) 100%),
+        url('../icons/fond_emploi_du_temps.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
 }
 
-/* Conteneur principal de connexion */
-#myconnect {
-    background-color: #ffffff;
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 25, 60, 0.55);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: 0;
+}
+
+/* ─── Wrapper centré : brand + card ─── */
+.auth-wrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    max-width: 450px;
-    padding: 50px 40px;
-    border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    animation: fadeIn 0.5s ease-in;
+    max-width: 480px;
+    gap: 24px;
+    animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Titre */
-#myconnect h1 {
-    color: #1e40af;
+/* ─── Nom de l'application en haut ─── */
+.app-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     text-align: center;
-    font-size: 32px;
-    margin-bottom: 30px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border-bottom: 3px solid #3b82f6;
-    padding-bottom: 15px;
+    user-select: none;
 }
 
-/* Message d'erreur */
+.app-brand .brand-icon {
+    width: 58px;
+    height: 58px;
+    background: linear-gradient(135deg, #3b82f6, #7c3aed);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.45);
+}
+
+.app-brand .brand-icon svg {
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.app-brand h2 {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #ffffff 0%, #bfdbfe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.app-brand p {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.68);
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+/* ─── Conteneur principal de connexion ─── */
+#myconnect {
+    position: relative;
+    z-index: 1;
+    background: var(--white);
+    width: 100%;
+    max-width: 440px;
+    padding: 48px 40px;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.5s var(--transition) both;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Logo / Titre ─── */
+#myconnect h1 {
+    color: var(--primary-dark);
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 28px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#myconnect h1 svg {
+    color: var(--primary);
+}
+
+/* ─── Message d'erreur ─── */
 .Erreur {
-    background-color: #fee2e2;
-    color: #dc2626;
-    padding: 12px 15px;
-    border-radius: 8px;
-    border-left: 4px solid #dc2626;
+    background: var(--error-bg);
+    color: var(--error);
+    padding: 12px 16px;
+    border-radius: 10px;
+    border-left: 4px solid var(--error);
     margin-bottom: 20px;
     font-size: 14px;
-    text-align: center;
-    animation: shake 0.5s;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: shake 0.45s ease;
 }
 
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    75% { transform: translateX(10px); }
+    20%       { transform: translateX(-8px); }
+    40%       { transform: translateX(8px); }
+    60%       { transform: translateX(-5px); }
+    80%       { transform: translateX(5px); }
 }
 
-/* Formulaire */
+/* ─── Formulaire ─── */
 form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
 }
 
-/* Champs de saisie */
+/* ─── Wrapper input avec icône ─── */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--primary-light);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    transition: color var(--transition);
+}
+
+/* ─── Champs de saisie ─── */
 input[type="text"],
-input[type="password"] {
+input[type="password"],
+input[type="email"],
+input[type="date"] {
     width: 100%;
-    padding: 15px 20px;
-    font-size: 16px;
-    border: 2px solid #93c5fd;
-    border-radius: 10px;
+    padding: 14px;
+    font-size: 15px;
+    font-family: inherit;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
     outline: none;
-    transition: all 0.3s ease;
-    background-color: #f8fafc;
-    color: #1e293b;
+    transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+    background: var(--bg-input);
+    color: var(--text-dark);
+}
+
+/* Padding gauche seulement si l'input est dans un wrapper avec icône */
+.input-wrapper input[type="text"],
+.input-wrapper input[type="email"],
+.input-wrapper input[type="password"] {
+    padding-left: 44px;
 }
 
 input[type="text"]::placeholder,
-input[type="password"]::placeholder {
-    color: #64748b;
-    font-size: 15px;
+input[type="password"]::placeholder,
+input[type="email"]::placeholder {
+    color: var(--text-light);
+    font-size: 14px;
 }
 
 input[type="text"]:focus,
-input[type="password"]:focus {
-    border-color: #2563eb;
-    background-color: #ffffff;
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus {
+    border-color: var(--primary);
+    background: var(--white);
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
-    transform: translateY(-2px);
-}
-
-/* Bouton de soumission */
-input[type="submit"] {
-    width: 100%;
-    padding: 15px;
-    font-size: 18px;
-    font-weight: 600;
-    color: #ffffff;
-    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 10px;
-    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-}
-
-input[type="submit"]:hover {
-    background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-}
-
-input[type="submit"]:active {
     transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(37, 99, 235, 0.3);
 }
 
-/* Responsive Design */
-@media screen and (max-width: 500px) {
-    #myconnect {
-        padding: 40px 25px;
-        max-width: 100%;
-    }
-    
-    #myconnect h1 {
-        font-size: 26px;
-    }
-    
-    input[type="text"],
-    input[type="password"] {
-        padding: 12px 15px;
-        font-size: 15px;
-    }
-    
-    input[type="submit"] {
-        font-size: 16px;
-        padding: 12px;
-    }
+input[type="text"]:focus + .input-icon,
+input[type="password"]:focus + .input-icon {
+    color: var(--primary);
 }
 
-/* Animation au chargement pour les inputs */
-input[type="text"],
-input[type="password"],
-input[type="submit"] {
-    animation: slideIn 0.6s ease-out;
-    animation-fill-mode: both;
-}
-
-input[type="text"] {
-    animation-delay: 0.1s;
-}
-
-input[type="password"] {
-    animation-delay: 0.2s;
-}
-
-input[type="submit"] {
-    animation-delay: 0.3s;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Effet de focus amélioré */
-input[type="text"]:focus::placeholder,
-input[type="password"]:focus::placeholder {
-    color: #94a3b8;
-    transform: translateY(-2px);
-}
-
-/* Style pour les navigateurs webkit (Chrome, Safari) */
-input[type="text"]::-webkit-input-placeholder,
-input[type="password"]::-webkit-input-placeholder {
-    transition: all 0.3s ease;
-}
-
-/* Icônes optionnelles pour les inputs (si vous voulez ajouter des icônes) */
-input[type="text"] {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%233b82f6" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>');
-    background-repeat: no-repeat;
-    background-position: 15px center;
-    padding-left: 50px;
-}
-
-input[type="password"] {
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%233b82f6" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>');
-    background-repeat: no-repeat;
-    background-position: 15px center;
-    padding-left: 50px;
-}
-
+/* ─── Champ mot de passe avec toggle ─── */
 .password-field {
     position: relative;
     display: flex;
@@ -231,157 +257,484 @@ input[type="password"] {
 
 .password-field input {
     flex: 1;
-    padding-right: 40px;
+    padding-right: 48px;
 }
 
 .toggle-password {
     position: absolute;
-    right: 15px;
+    right: 12px;
     background: none;
     border: none;
     cursor: pointer;
-    color: #2563eb;
-    font-size: 20px;
-    padding: 8px;
-    transition: all 0.3s ease;
+    color: var(--text-light);
+    padding: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 8px;
+    transition: color var(--transition), background var(--transition), transform var(--transition);
 }
 
 .toggle-password:hover {
-    color: #1e40af;
-    transform: scale(1.2);
+    color: var(--primary);
+    background: rgba(37, 99, 235, 0.08);
 }
 
 .toggle-password:active {
-    transform: scale(0.95);
+    transform: scale(0.9);
+}
+
+/* ─── Bouton de soumission ─── */
+input[type="submit"] {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+    letter-spacing: 0.4px;
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+}
+
+input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(37, 99, 235, 0.45);
+    filter: brightness(1.05);
+}
+
+input[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* ─── Animations entrée des éléments ─── */
+#myconnect h1    { animation: fadeUp 0.4s 0.05s both; }
+.Erreur          { animation: shake 0.45s ease, fadeUp 0.3s ease both; }
+.input-wrapper,
+.password-field  { animation: fadeUp 0.4s both; }
+.input-wrapper:nth-child(1) { animation-delay: 0.1s; }
+.input-wrapper:nth-child(2) { animation-delay: 0.15s; }
+.password-field              { animation-delay: 0.2s; }
+input[type="submit"]         { animation: fadeUp 0.4s 0.25s both; }
+
+/* ─── Responsive mobile ─── */
+@media (max-width: 480px) {
+    #myconnect {
+        padding: 36px 24px;
+        border-radius: 16px;
+    }
+    #myconnect h1 { font-size: 22px; }
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+        padding: 13px 13px 13px 40px;
+        font-size: 14px;
+    }
+    input[type="submit"] {
+        font-size: 15px;
+        padding: 13px;
+    }
+}
+
+@media (max-width: 360px) {
+    body { padding: 12px; }
+    #myconnect { padding: 28px 18px; }
 }
 
 /* ============================================
-   AJOUTS POUR index.php
-   Alignement du conteneur + boutons stylisés
+   AJOUTS — index.php (Gtitre + container)
    ============================================ */
 
-/* Conteneur de la page d'accueil */
-.container {
+.page-wrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
     width: 100%;
-    max-width: 450px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px;
-    padding: 50px 40px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+.Gtitre {
+    position: relative;
+    z-index: 1;
     text-align: center;
-}
-
-/* Titre h1 dans .container */
-.container h1 {
-    color: #f0f4ff;
-    font-size: 22px;
+    color: #ffffff;
+    font-size: 1.45rem;
     font-weight: 700;
-    margin-bottom: 14px;
-    line-height: 1.4;
-    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    padding: 2rem 2rem 1.2rem;
+    text-shadow: 0 2px 12px rgba(0, 0, 30, 0.6);
+    max-width: 600px;
+    letter-spacing: 0.3px;
+    animation: fadeUp 0.5s 0.1s both;
 }
 
-/* Paragraphe dans .container */
+.container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 420px;
+    background: rgba(255, 255, 255, 0.97);
+    border-radius: 20px;
+    padding: 44px 36px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    animation: fadeUp 0.5s 0.2s both;
+}
+
 .container p {
-    color: rgba(220, 230, 255, 0.85);
+    color: var(--text-mid);
     font-size: 14px;
-    margin-bottom: 32px;
-    line-height: 1.6;
+    margin-bottom: 28px;
+    line-height: 1.65;
 }
 
-/* Formulaire dans .container */
 .container form {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
 }
 
-/* Bouton Se connecter */
+/* Bouton principal Se connecter */
 .container form button[name="connected"] {
     width: 100%;
     padding: 14px 22px;
     font-size: 15px;
     font-weight: 700;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #ffffff;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: inherit;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
     border: none;
-    border-radius: 12px;
+    border-radius: var(--radius);
     cursor: pointer;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.45);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    letter-spacing: 0.4px;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .container form button[name="connected"]:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 36px rgba(102, 126, 234, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 36px rgba(102, 126, 234, 0.55);
+    filter: brightness(1.04);
 }
 
 .container form button[name="connected"]:active {
-    transform: scale(0.97);
+    transform: scale(0.98);
 }
 
-/* Bouton S'inscrire */
+/* Bouton secondaire S'inscrire */
 .container form button[name="registered"] {
     width: 100%;
     padding: 14px 22px;
     font-size: 15px;
-    font-weight: 700;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #c7d2fe;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1.5px solid rgba(102, 126, 234, 0.45);
-    border-radius: 12px;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--accent);
+    background: transparent;
+    border: 2px solid rgba(102, 126, 234, 0.4);
+    border-radius: var(--radius);
     cursor: pointer;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
-    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    letter-spacing: 0.4px;
+    transition: transform var(--transition), background var(--transition), border-color var(--transition), color var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .container form button[name="registered"]:hover {
-    transform: translateY(-3px);
-    background: rgba(102, 126, 234, 0.18);
-    border-color: rgba(102, 126, 234, 0.7);
-    color: #e0e7ff;
+    transform: translateY(-2px);
+    background: rgba(102, 126, 234, 0.08);
+    border-color: var(--accent);
+    color: var(--accent2);
 }
 
 .container form button[name="registered"]:active {
-    transform: scale(0.97);
+    transform: scale(0.98);
 }
-/*tab-container*/
+
+@media (max-width: 480px) {
+    .Gtitre { font-size: 1.15rem; padding: 1.5rem 1rem 1rem; }
+    .container { padding: 32px 20px; margin: 0 8px; border-radius: 16px; }
+}
+
+/* ============================================
+   ONGLETS — inscr.php (tabs enseignant/étudiant)
+   ============================================ */
+
+.manage-tabs {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 20px 20px 0;
+    flex-wrap: wrap;
+}
+
 .tab-btn {
-    background: #ffffff;
-    border: 2px solid #667eea;
-    color: #667eea;
-    padding: 8px 14px;
-    border-radius: 10px;
+    background: var(--white);
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    padding: 10px 22px;
+    border-radius: var(--radius);
     cursor: pointer;
     font-weight: 600;
-    transition: all 0.18s ease;
-    box-shadow: 0 6px 18px rgba(102,126,234,0.06);
+    font-family: inherit;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    transition: all var(--transition);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    opacity: 0;
+    transition: opacity var(--transition);
+    z-index: -1;
+    border-radius: 10px;
 }
 
 .tab-btn:hover {
-    transform: translateY(-3px);
-    background: linear-gradient(180deg, #f7fbff 0%, #ffffff 100%);
+    transform: translateY(-2px);
+    color: var(--white);
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.25);
+}
+
+.tab-btn:hover::after {
+    opacity: 1;
 }
 
 .tab-btn.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #ffffff;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+    color: var(--white);
     border-color: transparent;
-    box-shadow: 0 12px 30px rgba(102,126,234,0.18);
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
 }
+
 .tab-btn.active:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 16px 40px rgba(102,126,234,0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
+}
+
+/* Messages succès/erreur inscription */
+.msg {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    margin: 12px 0;
+    animation: fadeUp 0.3s ease both;
+}
+
+.msg-success {
+    background: var(--success-bg);
+    color: var(--success);
+    border-left: 4px solid var(--success);
+}
+
+.msg-error {
+    background: var(--error-bg);
+    color: var(--error);
+    border-left: 4px solid var(--error);
+}
+
+
+/* ─── Page inscription ─── */
+.inscr-section {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    background: var(--white);
+    border-radius: 20px;
+    padding: 36px 36px 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.inscr-section h1 {
+    color: var(--primary-dark);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    margin-top: 4px;
+}
+
+.inscr-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.inscr-section select {
+    width: 100%;
+    padding: 13px 14px;
+    font-size: 15px;
+    font-family: inherit;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    background: var(--bg-input);
+    color: var(--text-dark);
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.inscr-section select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+    background: var(--white);
+}
+
+.inscr-section input[type="submit"] {
+    margin-top: 4px;
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: transform var(--transition), box-shadow var(--transition);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+}
+
+.inscr-section input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(37, 99, 235, 0.45);
+}
+
+/* Écrasement du body-flex pour la page inscription */
+body:has(.inscr-section) {
+    align-items: flex-start;
+    padding: 40px 20px;
+}
+
+@media (max-width: 568px) {
+    .inscr-section {
+        padding: 28px 18px 32px;
+        border-radius: 16px;
+    }
+    .inscr-section h1 { font-size: 19px; }
+    body:has(.inscr-section) { padding: 20px 12px; }
+}
+
+.back-link {
+
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: background var(--transition), transform var(--transition);
+    margin: 16px 0 4px;
+}
+
+.back-link:hover {
+    background: rgba(102, 126, 234, 0.08);
+    transform: translateX(-3px);
+}
+
+/* Formulaire inscription sans wrapper input (input direct) */
+#teachers input[type="text"],
+#teachers input[type="email"],
+#teachers input[type="password"],
+#teachers input[type="date"],
+#students input[type="text"],
+#students input[type="email"],
+#students input[type="password"],
+#students input[type="date"],
+#teachers select,
+#students select {
+    width: 100%;
+    padding: 13px 16px;
+    font-size: 15px;
+    font-family: inherit;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    background: var(--bg-input);
+    color: var(--text-dark);
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+#teachers input:focus,
+#students input:focus,
+#teachers select:focus,
+#students select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+    background: var(--white);
+}
+
+/* ─── Scrollbar pro ─── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover { filter: brightness(1.1); }
+
+/* ─── Footer page connexion (lien S'inscrire) ─── */
+.connect-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+    font-size: 14px;
+    color: var(--text-mid);
+}
+
+.register-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    color: var(--primary);
+    text-decoration: none;
+    padding: 4px 10px;
+    border-radius: 8px;
+    transition: background var(--transition), color var(--transition), transform var(--transition);
+}
+
+.register-link:hover {
+    background: rgba(37, 99, 235, 0.08);
+    color: var(--primary-dark);
+    transform: translateX(2px);
 }
