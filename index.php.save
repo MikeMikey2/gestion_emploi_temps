@@ -316,8 +316,7 @@
         <p class="subtitle">
             Planifiez cours, salles et enseignants en quelques clics.
             Une plateforme unifiée pour étudiants, enseignants et administrateurs.
-        </p>
-
+        </
         <div class="cta-group">
             <a href="connect.php" class="btn-primary">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
