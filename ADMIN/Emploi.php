@@ -1,6 +1,6 @@
 <?php
 //connecter a la base de donnees
-        include_once "con_dbb.php";
+        include_once "conn_dbb.php";
         include_once "../icons/icons.php";
 ?>
 <!DOCTYPE html>
