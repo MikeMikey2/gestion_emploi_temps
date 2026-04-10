@@ -11,8 +11,9 @@
         :root {
             --navy:   #0a1628;
             --blue:   #1a3a6e;
-            --accent: #e8a838;
-            --gold:   #f5c842;
+            --accent: #667eea;
+            --accent2: #764ba2;
+            --gold:   #764ba2;
             --light:  #f0ece4;
             --white:  #ffffff;
         }
@@ -29,7 +30,7 @@
         .bg {
             position: fixed; inset: 0; z-index: 0;
             background: radial-gradient(ellipse 80% 60% at 20% 10%, #1a3a6e55 0%, transparent 60%),
-                        radial-gradient(ellipse 60% 50% at 80% 80%, #e8a83818 0%, transparent 55%),
+                        radial-gradient(ellipse 60% 50% at 80% 80%, #667eea18 0%, transparent 55%),
                         var(--navy);
         }
         .bg::before {
@@ -81,8 +82,8 @@
 
         .badge {
             display: inline-flex; align-items: center; gap: .5rem;
-            background: rgba(232,168,56,.12);
-            border: 1px solid rgba(232,168,56,.3);
+            background: rgba(102,126,234,.12);
+            border: 1px solid rgba(102,126,234,.3);
             color: var(--accent);
             font-size: .8rem; font-weight: 500; letter-spacing: 1.5px;
             text-transform: uppercase;
@@ -147,12 +148,12 @@
             text-decoration: none;
             border: none; cursor: pointer;
             transition: transform .2s, box-shadow .2s, background .2s;
-            box-shadow: 0 8px 30px rgba(232,168,56,.3);
+            box-shadow: 0 8px 30px rgba(102,126,234,.3);
         }
         .btn-primary:hover {
             background: var(--gold);
             transform: translateY(-3px);
-            box-shadow: 0 14px 40px rgba(232,168,56,.45);
+            box-shadow: 0 14px 40px rgba(118,75,162,.45);
         }
         .btn-primary:active { transform: translateY(0); }
 
@@ -214,7 +215,7 @@
         .feature:hover { background: rgba(26,58,110,.35); }
         .feature-icon {
             width: 40px; height: 40px; flex-shrink: 0;
-            background: rgba(232,168,56,.12);
+            background: rgba(102,126,234,.12);
             border-radius: 10px;
             display: flex; align-items: center; justify-content: center;
             color: var(--accent);
@@ -233,7 +234,7 @@
             right: -80px; top: 50%;
             transform: translateY(-50%);
             width: 340px; height: 340px;
-            border: 1px solid rgba(232,168,56,.1);
+            border: 1px solid rgba(102,126,234,.1);
             border-radius: 24px;
             background: rgba(26,58,110,.15);
             backdrop-filter: blur(8px);
@@ -251,7 +252,7 @@
             background: rgba(255,255,255,.06);
         }
         .deco-cell.active { background: var(--accent); opacity: .7; }
-        .deco-cell.mid { background: rgba(232,168,56,.25); }
+        .deco-cell.mid { background: rgba(102,126,234,.25); }
 
         /* ── Animations ── */
         @keyframes fadeUp {

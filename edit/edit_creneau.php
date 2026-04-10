@@ -59,7 +59,7 @@ if (!$creneau) {
     die("Créneau introuvable.");
 }
 
-// Fetching dynamic Lists
+// Recuperer les listes des cours, professeurs et des salles 
 $cours_list = $conn->query("SELECT id_cours, code_cours, description FROM COURS")->fetchAll(PDO::FETCH_ASSOC);
 $profs_list = $conn->query("SELECT id_personne, nom, prenom FROM PERSONNE WHERE enseignant = 1 ORDER BY nom")->fetchAll(PDO::FETCH_ASSOC);
 $salles_list = $conn->query("SELECT DISTINCT nom_salle FROM SALLE ORDER BY nom_salle")->fetchAll(PDO::FETCH_ASSOC);
